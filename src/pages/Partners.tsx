@@ -319,4 +319,52 @@ const Partners = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-slate-700 mb-2">Email *</label>
-                        <Input type="email" placeholder="your@email.com" className="border-slate-3靗
+                        <Input type="email" placeholder="your@email.com" className="border-slate-300" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-2">Phone *</label>
+                        <Input type="tel" placeholder="+972-XX-XXX-XXXX" className="border-slate-300" />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Partnership Interest *</label>
+                      <select className="w-full p-3 border border-slate-300 rounded-md bg-white">
+                        <option value="">Select partnership type</option>
+                        <option value="dealer">Dealer Partnership</option>
+                        <option value="installer">Installation Partner</option>
+                        <option value="distributor">Distributor Network</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Business Description</label>
+                      <Textarea 
+                        placeholder="Tell us about your business, experience, and why you want to partner with us..."
+                        className="border-slate-300 min-h-[120px]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-slate-700 mb-2">Location/Service Area</label>
+                      <Input placeholder="City, region, or area you serve" className="border-slate-300" />
+                    </div>
+
+                    <Button type="submit" className="w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white py-3 text-lg">
+                      Submit Partnership Application
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+      <FloatingCTA />
+    </div>
+  );
+};
+
+export default Partners;

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Sun, Zap, Shield, Award, Users, Phone, Mail } from "lucide-react";
 import { motion } from "framer-motion";
-import Header from "@/components/Header";
+import Header, { LanguageProvider } from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import WhyLaraSolare from "@/components/WhyLaraSolare";
 import ProductsSection from "@/components/ProductsSection";
@@ -17,17 +17,19 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <Header />
-      <HeroSection />
-      <WhyLaraSolare />
-      <ProductsSection />
-      <ServicesSection />
-      <TestimonialsSection />
-      <ContactSection />
-      <Footer />
-      <FloatingCTA />
-    </div>
+    <LanguageProvider>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <Header />
+        <HeroSection />
+        <WhyLaraSolare />
+        <ProductsSection />
+        <ServicesSection />
+        <TestimonialsSection />
+        <ContactSection />
+        <Footer />
+        <FloatingCTA />
+      </div>
+    </LanguageProvider>
   );
 };
 

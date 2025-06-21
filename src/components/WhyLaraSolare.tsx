@@ -1,51 +1,60 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Sun, Shield, Award, Users, Zap, Globe } from "lucide-react";
+import { Sun, Shield, Award, Users, Zap, Globe, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "./Header";
 
 const WhyLaraSolare = () => {
+  const { t } = useLanguage();
+
   const features = [
     {
       icon: Sun,
-      title: "Custom-Made in China",
+      title: t('customMade'),
       description: "Premium solar water heaters designed specifically for Israeli climate conditions with advanced Chinese manufacturing technology.",
-      badge: "Premium Quality"
+      badge: "Premium Quality",
+      color: "from-orange-500 to-red-500"
     },
     {
       icon: Users,
-      title: "Local Expertise",
+      title: t('localExpertise'),
       description: "Founded by industry veterans with deep understanding of Israeli market needs and regulatory requirements.",
-      badge: "15+ Years"
+      badge: "15+ Years",
+      color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Shield,
-      title: "Comprehensive Warranty",
+      title: t('warranty'),
       description: "Industry-leading warranty coverage with local support and maintenance services throughout Israel.",
-      badge: "10 Year Warranty"
+      badge: "10 Year Warranty",
+      color: "from-green-500 to-emerald-500"
     },
     {
       icon: Zap,
-      title: "High Efficiency",
+      title: t('highEfficiency'),
       description: "Up to 95% thermal efficiency with advanced heat exchange technology and superior insulation materials.",
-      badge: "95% Efficiency"
+      badge: "95% Efficiency",
+      color: "from-yellow-500 to-orange-500"
     },
     {
       icon: Globe,
-      title: "Nationwide Service",
+      title: t('nationwideService'),
       description: "Professional installation and maintenance services available across Israel, from north to south.",
-      badge: "Israel Wide"
+      badge: "Israel Wide",
+      color: "from-purple-500 to-pink-500"
     },
     {
       icon: Award,
-      title: "Certified Excellence",
+      title: t('certifiedExcellence'),
       description: "All products meet Israeli standards (IS) and international certifications for safety and performance.",
-      badge: "IS Certified"
+      badge: "IS Certified",
+      color: "from-indigo-500 to-blue-500"
     }
   ];
 
   return (
-    <section id="about" className="py-20 bg-white">
+    <section id="about" className="py-20 bg-gradient-to-br from-white to-slate-50">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -55,8 +64,9 @@ const WhyLaraSolare = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
-            Why Choose <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Lara Solare?</span>
+            {t('whyChoose')} <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">{t('laraSolare')}</span>
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             We bridge the gap between cutting-edge Chinese solar technology and Israeli market expertise, 
             delivering custom solutions that perfectly match your needs.
@@ -74,15 +84,16 @@ const WhyLaraSolare = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="group h-full bg-gradient-to-br from-white to-slate-50 border-2 border-slate-100 hover:border-orange-200 transition-all duration-300 hover:shadow-lg">
-                  <CardHeader className="text-center pb-4">
+                <Card className="group h-full bg-white border-2 border-slate-100 hover:border-orange-200 transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-2">
+                  <CardHeader className="text-center pb-4 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-yellow-500"></div>
                     <div className="flex justify-center mb-4">
                       <div className="relative">
-                        <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-full flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-lg`}>
                           <IconComponent className="h-8 w-8 text-white" />
                         </div>
                         <div className="absolute -top-2 -right-2">
-                          <Badge variant="secondary" className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs px-2 py-1">
+                          <Badge variant="secondary" className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs px-2 py-1 shadow-md">
                             {feature.badge}
                           </Badge>
                         </div>
@@ -96,6 +107,10 @@ const WhyLaraSolare = () => {
                     <CardDescription className="text-slate-600 leading-relaxed">
                       {feature.description}
                     </CardDescription>
+                    <div className="flex items-center mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                      <span className="text-sm text-green-600 font-medium">Verified Quality</span>
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -103,9 +118,9 @@ const WhyLaraSolare = () => {
           })}
         </div>
 
-        {/* Founder Story Section */}
+        {/* Enhanced Founder Story Section */}
         <motion.div
-          className="mt-20 bg-gradient-to-r from-slate-50 to-blue-50 rounded-2xl p-8 md:p-12"
+          className="mt-20 bg-gradient-to-r from-slate-50 via-blue-50 to-slate-50 rounded-3xl p-8 md:p-12 border border-slate-200 shadow-xl"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -114,6 +129,7 @@ const WhyLaraSolare = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-3xl font-bold text-slate-800 mb-6">Our Founder's Story</h3>
+              <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mb-6 rounded-full"></div>
               <p className="text-slate-600 mb-4 leading-relaxed">
                 With over 15 years in Israel's renewable energy sector, our founder recognized the gap between 
                 high-quality Chinese solar technology and local market needs. After establishing partnerships 
@@ -124,21 +140,28 @@ const WhyLaraSolare = () => {
                 combine Chinese manufacturing excellence with Israeli installation expertise and ongoing support.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Badge className="bg-orange-100 text-orange-800 px-4 py-2">Industry Pioneer</Badge>
-                <Badge className="bg-blue-100 text-blue-800 px-4 py-2">China-Israel Bridge</Badge>
-                <Badge className="bg-green-100 text-green-800 px-4 py-2">Sustainability Expert</Badge>
+                <Badge className="bg-orange-100 text-orange-800 px-4 py-2 border border-orange-200">Industry Pioneer</Badge>
+                <Badge className="bg-blue-100 text-blue-800 px-4 py-2 border border-blue-200">China-Israel Bridge</Badge>
+                <Badge className="bg-green-100 text-green-800 px-4 py-2 border border-green-200">Sustainability Expert</Badge>
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl overflow-hidden shadow-xl">
-                <div className="absolute inset-4 bg-white rounded-xl flex items-center justify-center">
+              <div className="aspect-square bg-gradient-to-br from-orange-400 via-yellow-400 to-orange-500 rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                <div className="absolute inset-4 bg-white rounded-2xl flex items-center justify-center">
                   <div className="text-center">
-                    <Sun className="h-16 w-16 text-orange-500 mx-auto mb-4" />
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Sun className="h-16 w-16 text-orange-500 mx-auto mb-4" />
+                    </motion.div>
                     <p className="text-slate-600 font-medium">Bridging Technology</p>
                     <p className="text-slate-600 font-medium">& Expertise</p>
                   </div>
                 </div>
               </div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-20"></div>
+              <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-400 rounded-full opacity-20"></div>
             </div>
           </div>
         </motion.div>

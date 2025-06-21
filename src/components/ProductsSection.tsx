@@ -2,10 +2,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sun, Droplets, Thermometer, Shield, Star } from "lucide-react";
+import { Sun, Droplets, Thermometer, Shield, Star, Award, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "./Header";
 
 const ProductsSection = () => {
+  const { t } = useLanguage();
+
   const products = [
     {
       name: "Residential Pro 200L",
@@ -16,7 +19,8 @@ const ProductsSection = () => {
       price: "₪2,890",
       features: ["Compact Design", "Quick Heating", "Energy Efficient", "Easy Installation"],
       rating: 4.8,
-      popular: true
+      popular: true,
+      gradient: "from-blue-500 to-cyan-500"
     },
     {
       name: "Family Premium 300L",
@@ -27,7 +31,8 @@ const ProductsSection = () => {
       price: "₪3,490",
       features: ["Large Family Size", "Superior Insulation", "Smart Controls", "Weather Resistant"],
       rating: 4.9,
-      popular: false
+      popular: false,
+      gradient: "from-orange-500 to-red-500"
     },
     {
       name: "Commercial 500L",
@@ -38,7 +43,8 @@ const ProductsSection = () => {
       price: "₪5,990",
       features: ["High Volume", "Industrial Grade", "Advanced Monitoring", "Professional Support"],
       rating: 4.7,
-      popular: false
+      popular: false,
+      gradient: "from-purple-500 to-indigo-500"
     }
   ];
 
@@ -53,8 +59,9 @@ const ProductsSection = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
-            Our <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Solar Products</span>
+            {t('ourProducts')} <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Solar Products</span>
           </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Premium solar water heaters designed for Israeli climate, manufactured with cutting-edge Chinese technology
           </p>
@@ -69,10 +76,11 @@ const ProductsSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className={`group h-full bg-white hover:shadow-2xl transition-all duration-300 border-2 ${product.popular ? 'border-orange-300 relative' : 'border-slate-200 hover:border-orange-200'}`}>
+              <Card className={`group h-full bg-white hover:shadow-2xl transition-all duration-500 border-2 transform hover:-translate-y-2 ${product.popular ? 'border-orange-300 relative' : 'border-slate-200 hover:border-orange-200'}`}>
                 {product.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-1">
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                    <Badge className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-1 shadow-lg">
+                      <Award className="h-3 w-3 mr-1" />
                       Most Popular
                     </Badge>
                   </div>
@@ -82,9 +90,12 @@ const ProductsSection = () => {
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className={`absolute top-4 right-4 w-12 h-12 bg-gradient-to-br ${product.gradient} rounded-full flex items-center justify-center opacity-90`}>
+                    <Sun className="h-6 w-6 text-white" />
+                  </div>
                 </div>
 
                 <CardHeader>
@@ -97,22 +108,22 @@ const ProductsSection = () => {
                       <span className="text-sm font-medium text-slate-600">{product.rating}</span>
                     </div>
                   </div>
-                  <div className="text-3xl font-bold text-orange-600 mb-2">{product.price}</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent mb-2">{product.price}</div>
                 </CardHeader>
 
                 <CardContent>
                   <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="text-center">
+                    <div className="text-center bg-blue-50 rounded-lg p-3 border border-blue-100">
                       <Droplets className="h-6 w-6 text-blue-500 mx-auto mb-1" />
                       <div className="text-sm font-medium text-slate-800">{product.capacity}</div>
                       <div className="text-xs text-slate-500">Capacity</div>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center bg-orange-50 rounded-lg p-3 border border-orange-100">
                       <Thermometer className="h-6 w-6 text-orange-500 mx-auto mb-1" />
                       <div className="text-sm font-medium text-slate-800">{product.efficiency}</div>
                       <div className="text-xs text-slate-500">Efficiency</div>
                     </div>
-                    <div className="text-center">
+                    <div className="text-center bg-green-50 rounded-lg p-3 border border-green-100">
                       <Shield className="h-6 w-6 text-green-500 mx-auto mb-1" />
                       <div className="text-sm font-medium text-slate-800">{product.warranty}</div>
                       <div className="text-xs text-slate-500">Warranty</div>
@@ -122,13 +133,13 @@ const ProductsSection = () => {
                   <div className="space-y-2 mb-6">
                     {product.features.map((feature, featureIndex) => (
                       <div key={featureIndex} className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full" />
+                        <CheckCircle className="h-4 w-4 text-green-500" />
                         <span className="text-sm text-slate-600">{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  <Button className={`w-full ${product.popular ? 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600' : 'bg-slate-800 hover:bg-slate-700'} text-white`}>
+                  <Button className={`w-full ${product.popular ? 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 shadow-lg' : 'bg-slate-800 hover:bg-slate-700'} text-white transition-all duration-300 transform hover:scale-105`}>
                     Get Quote
                   </Button>
                 </CardContent>
@@ -137,19 +148,20 @@ const ProductsSection = () => {
           ))}
         </div>
 
-        {/* Comparison Chart */}
+        {/* Enhanced Comparison Chart */}
         <motion.div
-          className="bg-white rounded-2xl p-8 shadow-lg"
+          className="bg-white rounded-3xl p-8 shadow-2xl border border-slate-200"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
           <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">Product Comparison</h3>
+          <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-8 rounded-full"></div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b-2 border-slate-200">
+                <tr className="border-b-2 border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50">
                   <th className="text-left py-4 px-4 font-semibold text-slate-800">Feature</th>
                   <th className="text-center py-4 px-4 font-semibold text-slate-800">Residential Pro</th>
                   <th className="text-center py-4 px-4 font-semibold text-slate-800">Family Premium</th>
@@ -157,25 +169,27 @@ const ProductsSection = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-slate-100">
+                <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-slate-700">Capacity</td>
                   <td className="py-3 px-4 text-center">200L</td>
                   <td className="py-3 px-4 text-center">300L</td>
                   <td className="py-3 px-4 text-center">500L</td>
                 </tr>
-                <tr className="border-b border-slate-100">
+                <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-slate-700">Efficiency</td>
                   <td className="py-3 px-4 text-center">92%</td>
-                  <td className="py-3 px-4 text-center text-green-600 font-medium">95%</td>
+                  <td className="py-3 px-4 text-center">
+                    <span className="text-green-600 font-medium bg-green-100 px-2 py-1 rounded-full">95%</span>
+                  </td>
                   <td className="py-3 px-4 text-center">94%</td>
                 </tr>
-                <tr className="border-b border-slate-100">
+                <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-slate-700">Heating Time</td>
                   <td className="py-3 px-4 text-center">2-3 hours</td>
                   <td className="py-3 px-4 text-center">3-4 hours</td>
                   <td className="py-3 px-4 text-center">4-5 hours</td>
                 </tr>
-                <tr className="border-b border-slate-100">
+                <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-slate-700">Ideal For</td>
                   <td className="py-3 px-4 text-center">2-3 People</td>
                   <td className="py-3 px-4 text-center">4-6 People</td>

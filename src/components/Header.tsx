@@ -1,7 +1,9 @@
+
 import { useState, createContext, useContext } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Language Context
 const LanguageContext = createContext({
@@ -218,9 +220,33 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavigation = (href: string, label: string) => {
+    if (href.startsWith('#')) {
+      // Hash navigation - only works on homepage
+      if (location.pathname !== '/') {
+        // If not on homepage, go to homepage first then scroll to section
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(href.slice(1));
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        // Already on homepage, just scroll to section
+        const element = document.getElementById(href.slice(1));
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Regular page navigation
+      navigate(href);
+    }
+    setIsMenuOpen(false);
+  };
 
   const menuItems = [
-    { href: '#home', label: t('home') },
+    { href: '/', label: t('home') },
     { href: '#products', label: t('products') },
     { href: '#services', label: t('services') },
     { href: '#about', label: t('about') },
@@ -234,10 +260,11 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div 
-            className="flex items-center space-x-3"
+            className="flex items-center space-x-3 cursor-pointer"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
+            onClick={() => navigate('/')}
           >
             <div className="relative">
               <img 
@@ -252,24 +279,17 @@ const Header = () => {
           {/* Desktop Menu */}
           <nav className="hidden md:flex items-center space-x-8">
             {menuItems.map((item, index) => (
-              <motion.a
+              <motion.button
                 key={item.href}
-                href={item.href}
                 className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={(e) => {
-                  if (item.href.startsWith('#')) {
-                    e.preventDefault();
-                    const element = document.getElementById(item.href.slice(1));
-                    element?.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+                onClick={() => handleNavigation(item.href, item.label)}
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300"></span>
-              </motion.a>
+              </motion.button>
             ))}
           </nav>
 
@@ -313,21 +333,13 @@ const Header = () => {
             >
               <nav className="flex flex-col space-y-4 pt-4">
                 {menuItems.map((item) => (
-                  <a
+                  <button
                     key={item.href}
-                    href={item.href}
-                    className="text-slate-700 hover:text-orange-600 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-slate-50"
-                    onClick={(e) => {
-                      setIsMenuOpen(false);
-                      if (item.href.startsWith('#')) {
-                        e.preventDefault();
-                        const element = document.getElementById(item.href.slice(1));
-                        element?.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
+                    className="text-slate-700 hover:text-orange-600 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-slate-50 text-left"
+                    onClick={() => handleNavigation(item.href, item.label)}
                   >
                     {item.label}
-                  </a>
+                  </button>
                 ))}
                 <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                   <div className="flex items-center space-x-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200">

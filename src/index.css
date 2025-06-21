@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 @tailwind base;
 @tailwind components;
@@ -71,13 +70,227 @@
   }
 }
 
-/* RTL Support */
+/* RTL Support - Enhanced */
 .rtl {
   direction: rtl;
 }
 
 .ltr {
   direction: ltr;
+}
+
+/* RTL-specific adjustments */
+.rtl .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+.rtl .divide-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-x-reverse: 1;
+}
+
+/* Hebrew text optimization */
+.rtl {
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: right;
+}
+
+.rtl h1, .rtl h2, .rtl h3, .rtl h4, .rtl h5, .rtl h6 {
+  text-align: right;
+}
+
+.rtl p, .rtl div {
+  text-align: right;
+}
+
+.rtl .text-center {
+  text-align: center !important;
+}
+
+.rtl .text-left {
+  text-align: left !important;
+}
+
+/* Mobile-first responsive improvements */
+@media (max-width: 480px) {
+  /* Compact mobile buttons */
+  .floating-cta-mobile {
+    bottom: 1rem;
+    left: 1rem;
+    right: auto;
+  }
+  
+  .floating-cta-mobile .btn {
+    height: 2.5rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Ensure Hebrew text doesn't overflow */
+  .rtl .text-responsive {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Mobile product comparison improvements */
+  .comparison-table-mobile {
+    min-width: auto;
+    font-size: 0.875rem;
+  }
+  
+  .comparison-table-mobile th,
+  .comparison-table-mobile td {
+    padding: 0.5rem 0.25rem;
+    white-space: nowrap;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (min-width: 481px) and (max-width: 768px) {
+  .floating-cta-mobile .btn {
+    height: 2.75rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Desktop and larger screens */
+@media (min-width: 769px) {
+  .floating-cta-mobile .btn {
+    height: 3rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Enhanced RTL grid support */
+.rtl .grid {
+  direction: rtl;
+}
+
+.rtl .flex {
+  direction: rtl;
+}
+
+.rtl .flex-row-reverse {
+  flex-direction: row;
+}
+
+/* Product card RTL adjustments */
+.rtl .product-card {
+  text-align: right;
+}
+
+.rtl .product-card .features {
+  direction: rtl;
+}
+
+.rtl .product-card .price {
+  text-align: right;
+}
+
+/* Navigation RTL fixes */
+.rtl .nav-menu {
+  direction: rtl;
+}
+
+.rtl .nav-menu a {
+  text-align: right;
+}
+
+/* Form RTL support */
+.rtl input, .rtl textarea, .rtl select {
+  text-align: right;
+  direction: rtl;
+}
+
+.rtl .form-label {
+  text-align: right;
+}
+
+/* Button RTL adjustments */
+.rtl .btn-with-icon {
+  flex-direction: row-reverse;
+}
+
+.rtl .btn-with-icon svg {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+/* Table RTL support */
+.rtl table {
+  direction: rtl;
+}
+
+.rtl th {
+  text-align: right;
+}
+
+.rtl td {
+  text-align: right;
+}
+
+.rtl .text-center th,
+.rtl .text-center td {
+  text-align: center !important;
+}
+
+/* Enhanced mobile responsiveness for Hebrew */
+@media (max-width: 640px) {
+  .rtl .heading-primary {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+  
+  .rtl .heading-secondary {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  
+  .rtl .body-large {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+/* Ensure consistent spacing in RTL */
+.rtl .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.rtl .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.rtl .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+.rtl .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 2rem;
+  margin-bottom: 0;
+}
+
+/* Product comparison modal mobile optimization */
+@media (max-width: 768px) {
+  .comparison-modal {
+    max-width: 95vw;
+    max-height: 80vh;
+    margin: 1rem;
+  }
+  
+  .comparison-modal .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .comparison-modal table {
+    min-width: 600px;
+  }
 }
 
 /* Smooth scrolling optimization */

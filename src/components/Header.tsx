@@ -1,11 +1,10 @@
-
 import { useState, createContext, useContext, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 
-// Language Context
+// Language Context - Hebrew only
 const LanguageContext = createContext({
   language: 'he',
   setLanguage: (lang: string) => {},
@@ -14,76 +13,8 @@ const LanguageContext = createContext({
 
 export const useLanguage = () => useContext(LanguageContext);
 
-// Enhanced translations with all necessary keys
+// Hebrew translations only
 const translations = {
-  en: {
-    home: 'Home',
-    products: 'Products',
-    services: 'Services',
-    about: 'About',
-    contact: 'Contact',
-    partners: 'Partners',
-    getQuote: 'Get Quote',
-    harnessSun: 'Harness the Sun.',
-    powerHome: 'Power Your Home.',
-    heroSubtitle: 'Premium custom-designed solar water heaters from China. Locally installed by experts throughout Israel.',
-    getFreeQuote: 'Get Free Quote',
-    viewProducts: 'View Products',
-    installations: 'Installations',
-    yearsExperience: 'Years Experience',
-    support: 'Support',
-    whyChoose: 'Why Choose',
-    laraSolare: 'Lara Solare?',
-    customMade: 'Custom-Made in China',
-    localExpertise: 'Local Expertise',
-    warranty: 'Comprehensive Warranty',
-    highEfficiency: 'High Efficiency',
-    nationwideService: 'Nationwide Service',
-    certifiedExcellence: 'Certified Excellence',
-    ourProducts: 'Our Solar Products',
-    completeSolutions: 'Complete Solar Solutions',
-    ourProcess: 'Our Process',
-    readyToStart: 'Ready to Get Started?',
-    scheduleConsultation: 'Schedule Consultation',
-    becomePartner: 'Become a Partner',
-    requestQuote: 'Request Quote',
-    whatsappUs: 'WhatsApp Us',
-    callUs: 'Call Us',
-    // Company info
-    founded: 'Founded',
-    foundedYear: '2018',
-    ceo: 'CEO',
-    ceoName: 'Emil Dwahda',
-    coFounder: 'Co-Founder',
-    coFounderName: 'Badr Dwahda',
-    // Footer translations
-    company: 'Company',
-    aboutUs: 'About Us',
-    ourStory: 'Our Story',
-    careers: 'Careers',
-    news: 'News',
-    residentialSystems: 'Residential Systems',
-    commercialSolutions: 'Commercial Solutions',
-    warranties: 'Warranties',
-    maintenance: 'Maintenance',
-    customerSupport: 'Customer Support',
-    installationGuide: 'Installation Guide',
-    faq: 'FAQ',
-    contactUs: 'Contact Us',
-    workingHours: 'Sun-Thu 8:00-18:00',
-    responseTime: '24h response time',
-    allOfIsrael: 'All of Israel',
-    followUs: 'Follow Us',
-    allRightsReserved: 'All rights reserved.',
-    privacyPolicy: 'Privacy Policy',
-    termsOfService: 'Terms of Service',
-    cookiePolicy: 'Cookie Policy',
-    partnerWithUs: 'Partner With Us',
-    companyCredentials: 'Licensed Solar Installation Company | Israeli Standards Institute Certified | Import License #IL-SOLAR-2024 | VAT: IL123456789',
-    footerDescription: 'Leading provider of premium solar water heating solutions in Israel. Custom-designed systems with Chinese technology and local expertise.',
-    successfulInstallations: 'Successful Installations',
-    acrossIsrael: 'Across Israel'
-  },
   he: {
     home: 'בית',
     products: 'מוצרים',
@@ -121,7 +52,7 @@ const translations = {
     founded: 'נוסדה',
     foundedYear: '2018',
     ceo: 'מנכ״ל',
-    ceoName: 'איميל דואהדה',
+    ceoName: 'אימיל דואהדה',
     coFounder: 'מייסד שותף',
     coFounderName: 'בדר דואהדה',
     // Footer translations
@@ -150,104 +81,43 @@ const translations = {
     companyCredentials: 'חברת התקנת דודי שמש מורשית | מאושרת על ידי מכון התקנים הישראלי | רישיון יבוא #IL-SOLAR-2024 | מע״ם: IL123456789',
     footerDescription: 'ספק מוביל של פתרונות דוד שמש איכותיים בישראל. מערכות מותאמות אישית עם טכנולוגיה סינית ומומחיות מקומית.',
     successfulInstallations: 'התקנות מוצלחות',
-    acrossIsrael: 'ברחבי ישראל'
-  },
-  ar: {
-    home: 'الرئيسية',
-    products: 'المنتجات',
-    services: 'الخدمات',
-    about: 'حولنا',
-    contact: 'اتصل بنا',
-    partners: 'الشركاء',
-    getQuote: 'احصل على عرض سعر',
-    harnessSun: 'استغل الشمس.',
-    powerHome: 'قم بتشغيل منزلك.',
-    heroSubtitle: 'سخانات المياه الشمسية المصممة خصيصاً من الصين. يتم تركيبها محلياً من قِبل خبراء في جميع أنحاء إسرائيل.',
-    getFreeQuote: 'احصل على عرض سعر مجاني',
-    viewProducts: 'عرض المنتجات',
-    installations: 'التركيبات',
-    yearsExperience: 'سنوات من الخبرة',
-    support: 'الدعم',
-    whyChoose: 'لماذا تختار',
-    laraSolare: 'لارا سولاري؟',
-    customMade: 'مصنوع خصيصاً في الصين',
-    localExpertise: 'الخبرة المحلية',
-    warranty: 'ضمان شامل',
-    highEfficiency: 'كفاءة عالية',
-    nationwideService: 'خدمة على مستوى البلاد',
-    certifiedExcellence: 'التميز المعتمد',
-    ourProducts: 'منتجاتنا الشمسية',
-    completeSolutions: 'حلول شمسية متكاملة',
-    ourProcess: 'عمليتنا',
-    readyToStart: 'مستعد للبدء؟',
-    scheduleConsultation: 'حدد موعد استشارة',
-    becomePartner: 'كن شريكاً',
-    requestQuote: 'اطلب عرض سعر',
-    whatsappUs: 'راسلنا عبر واتساب',
-    callUs: 'اتصل بنا',
-    // Company info
-    founded: 'تأسست',
-    foundedYear: '2018',
-    ceo: 'الرئيس التنفيذي',
-    ceoName: 'ايميل دواهدة',
-    coFounder: 'الشريك المؤسس',
-    coFounderName: 'بدر دواهدة',
-    // Footer translations
-    company: 'الشركة',
-    aboutUs: 'حولنا',
-    ourStory: 'قصتنا',
-    careers: 'وظائف',
-    news: 'أخبار',
-    residentialSystems: 'أنظمة سكنية',
-    commercialSolutions: 'حلول تجارية',
-    warranties: 'ضمانات',
-    maintenance: 'صيانة',
-    customerSupport: 'دعم العملاء',
-    installationGuide: 'دليل التركيب',
-    faq: 'أسئلة شائعة',
-    contactUs: 'اتصل بنا',
-    workingHours: 'الأحد-الخميس 8:00-18:00',
-    responseTime: 'وقت الاستجابة 24 ساعة',
-    allOfIsrael: 'جميع أنحاء إسرائيل',
-    followUs: 'تابعونا',
-    allRightsReserved: 'جميع الحقوق محفوظة.',
-    privacyPolicy: 'سياسة الخصوصية',
-    termsOfService: 'شروط الخدمة',
-    cookiePolicy: 'سياسة الكوكيز',
-    partnerWithUs: 'كن شريكاً معنا',
-    companyCredentials: 'شركة تركيب دوود شمسية مرخصة | معتمدة من معهد المعايير الإسرائيلي | رخصة استيراد #IL-SOLAR-2024 | ضريبة القيمة المضافة: IL123456789',
-    footerDescription: 'مزود رائد لحلول سخانات المياه الشمسية المتميزة في إسرائيل. أنظمة مصممة خصيصاً بتقنية صينية وخبرة محلية.',
-    successfulInstallations: 'تركيبات ناجحة',
-    acrossIsrael: 'في جميع أنحاء إسرائيل'
+    acrossIsrael: 'ברחבי ישראל',
+    productComparison: 'השוואת מוצרים',
+    feature: 'תכונה',
+    capacity: 'קיבולת',
+    efficiency: 'יעילות',
+    heatingTime: 'זמן חימום',
+    idealFor: 'מתאים עבור',
+    people: 'אנשים',
+    businesses: 'עסקים',
+    residentialPro: 'מערכת ביתית פרו',
+    familyPremium: 'משפחתי פרמיום',
+    commercial: 'מסחרי',
+    hours: 'שעות'
   }
 };
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  // Initialize with Hebrew as default, check localStorage for saved preference
-  const [language, setLanguageState] = useState(() => {
-    const saved = localStorage.getItem('larasolare-language');
-    return saved || 'he';
-  });
+  // Hebrew only - no language switching
+  const [language] = useState('he');
   
-  const setLanguage = (lang: string) => {
-    setLanguageState(lang);
-    localStorage.setItem('larasolare-language', lang);
+  const setLanguage = () => {
+    // No-op since we only support Hebrew
   };
   
   const t = (key: string) => {
-    return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
+    return translations.he[key as keyof typeof translations.he] || key;
   };
 
-  // Set document attributes for RTL support and persistence
+  // Set RTL attributes
   useEffect(() => {
-    const isRTL = language === 'he' || language === 'ar';
-    document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
-    document.documentElement.setAttribute('lang', language);
-  }, [language]);
+    document.documentElement.setAttribute('dir', 'rtl');
+    document.documentElement.setAttribute('lang', 'he');
+  }, []);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
-      <div className={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'} dir={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'}>
+      <div className="rtl" dir="rtl">
         {children}
       </div>
     </LanguageContext.Provider>
@@ -256,28 +126,23 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
+  const { t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
-  const isRTL = language === 'he' || language === 'ar';
 
   const handleNavigation = (href: string, label: string) => {
     if (href.startsWith('#')) {
-      // Hash navigation - only works on homepage
       if (location.pathname !== '/') {
-        // If not on homepage, go to homepage first then scroll to section
         navigate('/');
         setTimeout(() => {
           const element = document.getElementById(href.slice(1));
           element?.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       } else {
-        // Already on homepage, just scroll to section
         const element = document.getElementById(href.slice(1));
         element?.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      // Regular page navigation
       navigate(href);
     }
     setIsMenuOpen(false);
@@ -296,10 +161,10 @@ const Header = () => {
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm border-b border-slate-100">
       <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo - Keep English */}
           <motion.div 
             className="flex items-center space-x-3 cursor-pointer min-w-0 shrink-0"
-            initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             onClick={() => navigate('/')}
@@ -326,26 +191,13 @@ const Header = () => {
                 onClick={() => handleNavigation(item.href, item.label)}
               >
                 {item.label}
-                <span className={`absolute -bottom-1 ${isRTL ? 'right-0' : 'left-0'} w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300`}></span>
+                <span className="absolute -bottom-1 right-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300"></span>
               </motion.button>
             ))}
           </nav>
 
-          {/* Language Selector & CTA */}
+          {/* CTA Button */}
           <div className="hidden md:flex items-center gap-2 lg:gap-3 xl:gap-4 shrink-0">
-            <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 min-w-fit">
-              <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
-              <select 
-                value={language} 
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none cursor-pointer min-w-0"
-                style={{ direction: 'ltr' }}
-              >
-                <option value="he">עברית</option>
-                <option value="en">English</option>
-                <option value="ar">العربية</option>
-              </select>
-            </div>
             <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm px-4 py-2">
               {t('getQuote')}
             </Button>
@@ -373,26 +225,13 @@ const Header = () => {
                 {menuItems.map((item) => (
                   <button
                     key={item.href}
-                    className={`text-slate-700 hover:text-orange-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-slate-50 ${isRTL ? 'text-right' : 'text-left'}`}
+                    className="text-slate-700 hover:text-orange-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-slate-50 text-right"
                     onClick={() => handleNavigation(item.href, item.label)}
                   >
                     {item.label}
                   </button>
                 ))}
-                <div className={`flex items-center ${isRTL ? 'justify-start' : 'justify-between'} pt-4 border-t border-slate-100 gap-3`}>
-                  <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 flex-1 max-w-[140px]">
-                    <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
-                    <select 
-                      value={language} 
-                      onChange={(e) => setLanguage(e.target.value)}
-                      className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none flex-1 min-w-0"
-                      style={{ direction: 'ltr' }}
-                    >
-                      <option value="he">עברית</option>
-                      <option value="en">English</option>
-                      <option value="ar">العربية</option>
-                    </select>
-                  </div>
+                <div className="flex items-center justify-start pt-4 border-t border-slate-100 gap-3">
                   <Button size="sm" className="bg-gradient-to-r from-orange-500 to-yellow-500 shadow-lg whitespace-nowrap text-sm px-4 py-2">
                     {t('getQuote')}
                   </Button>

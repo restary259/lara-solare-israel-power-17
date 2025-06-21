@@ -7,14 +7,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 // Language Context
 const LanguageContext = createContext({
-  language: 'en',
+  language: 'he',
   setLanguage: (lang: string) => {},
   t: (key: string) => key
 });
 
 export const useLanguage = () => useContext(LanguageContext);
 
-// Enhanced translations with all necessary keys
+// Enhanced translations with all necessary keys and company info
 const translations = {
   en: {
     home: 'Home',
@@ -49,7 +49,6 @@ const translations = {
     requestQuote: 'Request Quote',
     whatsappUs: 'WhatsApp Us',
     callUs: 'Call Us',
-    // Footer translations
     company: 'Company',
     aboutUs: 'About Us',
     ourStory: 'Our Story',
@@ -75,7 +74,10 @@ const translations = {
     companyCredentials: 'Licensed Solar Installation Company | Israeli Standards Institute Certified | Import License #IL-SOLAR-2024 | VAT: IL123456789',
     footerDescription: 'Leading provider of premium solar water heating solutions in Israel. Custom-designed systems with Chinese technology and local expertise.',
     successfulInstallations: 'Successful Installations',
-    acrossIsrael: 'Across Israel'
+    acrossIsrael: 'Across Israel',
+    founded: 'Founded: 2018',
+    ceo: 'CEO: Emil Dawahde',
+    coFounder: 'Co-Founder: Bader Dawahde'
   },
   he: {
     home: 'בית',
@@ -94,7 +96,7 @@ const translations = {
     yearsExperience: 'שנות ניסיון',
     support: 'תמיכה',
     whyChoose: 'למה לבחור ב',
-    laraSolare: 'לרה סולארי?',
+    laraSolare: 'Lara Solare?',
     customMade: 'מיוצר במיוחד בסין',
     localExpertise: 'מומחיות מקומית',
     warranty: 'אחריות מקיפה',
@@ -110,7 +112,6 @@ const translations = {
     requestQuote: 'בקש הצעת מחיר',
     whatsappUs: 'צור קשר בוואטסאפ',
     callUs: 'התקשר אלינו',
-    // Footer translations
     company: 'החברה',
     aboutUs: 'אודותינו',
     ourStory: 'הסיפור שלנו',
@@ -136,7 +137,10 @@ const translations = {
     companyCredentials: 'חברת התקנת דודי שמש מורשית | מאושרת על ידי מכון התקנים הישראלי | רישיון יבוא #IL-SOLAR-2024 | מע״ם: IL123456789',
     footerDescription: 'ספק מוביל של פתרונות דוד שמש איכותיים בישראל. מערכות מותאמות אישית עם טכנולוגיה סינית ומומחיות מקומית.',
     successfulInstallations: 'התקנות מוצלחות',
-    acrossIsrael: 'ברחבי ישראל'
+    acrossIsrael: 'ברחבי ישראל',
+    founded: 'נוסדה: 2018',
+    ceo: 'מנכ״ל: אמיל דוואהדה',
+    coFounder: 'שותף מייסד: בדר דוואהדה'
   },
   ar: {
     home: 'الرئيسية',
@@ -155,7 +159,7 @@ const translations = {
     yearsExperience: 'سنوات من الخبرة',
     support: 'الدعم',
     whyChoose: 'لماذا تختار',
-    laraSolare: 'لارا سولاري؟',
+    laraSolare: 'Lara Solare؟',
     customMade: 'مصنوع خصيصاً في الصين',
     localExpertise: 'الخبرة المحلية',
     warranty: 'ضمان شامل',
@@ -171,7 +175,6 @@ const translations = {
     requestQuote: 'اطلب عرض سعر',
     whatsappUs: 'راسلنا عبر واتساب',
     callUs: 'اتصل بنا',
-    // Footer translations
     company: 'الشركة',
     aboutUs: 'حولنا',
     ourStory: 'قصتنا',
@@ -197,22 +200,53 @@ const translations = {
     companyCredentials: 'شركة تركيب دوود شمسية مرخصة | معتمدة من معهد المعايير الإسرائيلي | رخصة استيراد #IL-SOLAR-2024 | ضريبة القيمة المضافة: IL123456789',
     footerDescription: 'مزود رائد لحلول سخانات المياه الشمسية المتميزة في إسرائيل. أنظمة مصممة خصيصاً بتقنية صينية وخبرة محلية.',
     successfulInstallations: 'تركيبات ناجحة',
-    acrossIsrael: 'في جميع أنحاء إسرائيل'
+    acrossIsrael: 'في جميع أنحاء إسرائيل',
+    founded: 'تأسست: 2018',
+    ceo: 'الرئيس التنفيذي: ايميل دواهدة',
+    coFounder: 'المؤسس المشارك: بدر دواهدة'
   }
 };
 
+// Auto-detect language function
+const detectLanguage = (): string => {
+  // Check if language is stored in localStorage
+  const savedLanguage = localStorage.getItem('preferred-language');
+  if (savedLanguage && ['en', 'he', 'ar'].includes(savedLanguage)) {
+    return savedLanguage;
+  }
+
+  // Auto-detect from browser language
+  const browserLang = navigator.language || navigator.languages?.[0] || 'he';
+  
+  if (browserLang.startsWith('he')) return 'he';
+  if (browserLang.startsWith('ar')) return 'ar';
+  if (browserLang.startsWith('en')) return 'en';
+  
+  // Default fallback to Hebrew
+  return 'he';
+};
+
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguageState] = useState(() => detectLanguage());
+  
+  const setLanguage = (lang: string) => {
+    setLanguageState(lang);
+    localStorage.setItem('preferred-language', lang);
+  };
   
   const t = (key: string) => {
     return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
   };
 
-  // Set document attributes for RTL support
+  // Set document attributes for RTL support and persist across route changes
   useEffect(() => {
     const isRTL = language === 'he' || language === 'ar';
     document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
     document.documentElement.setAttribute('lang', language);
+    
+    // Force re-render of all components to apply translations
+    const event = new CustomEvent('languageChange', { detail: { language } });
+    window.dispatchEvent(event);
   }, [language]);
 
   return (
@@ -230,6 +264,17 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isRTL = language === 'he' || language === 'ar';
+
+  // Re-apply language on route change
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      // Force component re-render when language changes
+      setIsMenuOpen(false);
+    };
+    
+    window.addEventListener('languageChange', handleLanguageChange);
+    return () => window.removeEventListener('languageChange', handleLanguageChange);
+  }, []);
 
   const handleNavigation = (href: string, label: string) => {
     if (href.startsWith('#')) {
@@ -311,8 +356,8 @@ const Header = () => {
                 className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none cursor-pointer min-w-0"
                 style={{ direction: 'ltr' }}
               >
-                <option value="en">English</option>
                 <option value="he">עברית</option>
+                <option value="en">English</option>
                 <option value="ar">العربية</option>
               </select>
             </div>
@@ -358,8 +403,8 @@ const Header = () => {
                       className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none flex-1 min-w-0"
                       style={{ direction: 'ltr' }}
                     >
-                      <option value="en">English</option>
                       <option value="he">עברית</option>
+                      <option value="en">English</option>
                       <option value="ar">العربية</option>
                     </select>
                   </div>

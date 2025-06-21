@@ -1,33 +1,29 @@
 
-import { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Sun, Zap, Shield, Award, Users, Phone, Mail } from "lucide-react";
-import { motion } from "framer-motion";
 import Header, { LanguageProvider } from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import WhyLaraSolare from "@/components/WhyLaraSolare";
 import ProductsSection from "@/components/ProductsSection";
 import ServicesSection from "@/components/ServicesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import ContactSection from "@/components/ContactSection";
 import SolarCalculator from "@/components/SolarCalculator";
-import FloatingCTA from "@/components/FloatingCTA";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import FloatingCTA from "@/components/FloatingCTA";
 
 const Index = () => {
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-white">
         <Header />
-        <HeroSection />
-        <WhyLaraSolare />
-        <ProductsSection />
-        <SolarCalculator />
-        <ServicesSection />
-        <TestimonialsSection />
-        <ContactSection />
+        <main>
+          <HeroSection />
+          <WhyLaraSolare />
+          <ProductsSection />
+          <ServicesSection />
+          <SolarCalculator />
+          <TestimonialsSection />
+          <ContactSection />
+        </main>
         <Footer />
         <FloatingCTA />
       </div>

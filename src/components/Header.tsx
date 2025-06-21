@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 // Language Context
 const LanguageContext = createContext({
-  language: 'en',
+  language: 'he',
   setLanguage: (lang: string) => {},
   t: (key: string) => key
 });
@@ -49,6 +49,13 @@ const translations = {
     requestQuote: 'Request Quote',
     whatsappUs: 'WhatsApp Us',
     callUs: 'Call Us',
+    // Company info
+    founded: 'Founded',
+    foundedYear: '2018',
+    ceo: 'CEO',
+    ceoName: 'Emil Dwahda',
+    coFounder: 'Co-Founder',
+    coFounderName: 'Badr Dwahda',
     // Footer translations
     company: 'Company',
     aboutUs: 'About Us',
@@ -110,6 +117,13 @@ const translations = {
     requestQuote: 'בקש הצעת מחיר',
     whatsappUs: 'צור קשר בוואטסאפ',
     callUs: 'התקשר אלינו',
+    // Company info
+    founded: 'נוסדה',
+    foundedYear: '2018',
+    ceo: 'מנכ״ל',
+    ceoName: 'איميל דואהדה',
+    coFounder: 'מייסד שותף',
+    coFounderName: 'בדר דואהדה',
     // Footer translations
     company: 'החברה',
     aboutUs: 'אודותינו',
@@ -171,6 +185,13 @@ const translations = {
     requestQuote: 'اطلب عرض سعر',
     whatsappUs: 'راسلنا عبر واتساب',
     callUs: 'اتصل بنا',
+    // Company info
+    founded: 'تأسست',
+    foundedYear: '2018',
+    ceo: 'الرئيس التنفيذي',
+    ceoName: 'ايميل دواهدة',
+    coFounder: 'الشريك المؤسس',
+    coFounderName: 'بدر دواهدة',
     // Footer translations
     company: 'الشركة',
     aboutUs: 'حولنا',
@@ -202,13 +223,22 @@ const translations = {
 };
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState('en');
+  // Initialize with Hebrew as default, check localStorage for saved preference
+  const [language, setLanguageState] = useState(() => {
+    const saved = localStorage.getItem('larasolare-language');
+    return saved || 'he';
+  });
+  
+  const setLanguage = (lang: string) => {
+    setLanguageState(lang);
+    localStorage.setItem('larasolare-language', lang);
+  };
   
   const t = (key: string) => {
     return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
   };
 
-  // Set document attributes for RTL support
+  // Set document attributes for RTL support and persistence
   useEffect(() => {
     const isRTL = language === 'he' || language === 'ar';
     document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
@@ -264,7 +294,7 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm border-b border-slate-100">
-      <div className="container mx-auto px-4 py-3 md:py-4">
+      <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div 
@@ -285,11 +315,11 @@ const Header = () => {
           </motion.div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
             {menuItems.map((item, index) => (
               <motion.button
                 key={item.href}
-                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap text-sm lg:text-base"
+                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap text-sm lg:text-base px-2"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -302,7 +332,7 @@ const Header = () => {
           </nav>
 
           {/* Language Selector & CTA */}
-          <div className="hidden md:flex items-center gap-3 lg:gap-4 shrink-0">
+          <div className="hidden md:flex items-center gap-2 lg:gap-3 xl:gap-4 shrink-0">
             <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 min-w-fit">
               <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
               <select 
@@ -311,8 +341,8 @@ const Header = () => {
                 className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none cursor-pointer min-w-0"
                 style={{ direction: 'ltr' }}
               >
-                <option value="en">English</option>
                 <option value="he">עברית</option>
+                <option value="en">English</option>
                 <option value="ar">العربية</option>
               </select>
             </div>
@@ -339,11 +369,11 @@ const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden mt-4 pb-4 border-t border-slate-100"
             >
-              <nav className="flex flex-col space-y-3 pt-4">
+              <nav className="flex flex-col space-y-2 pt-4">
                 {menuItems.map((item) => (
                   <button
                     key={item.href}
-                    className={`text-slate-700 hover:text-orange-600 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-slate-50 ${isRTL ? 'text-right' : 'text-left'}`}
+                    className={`text-slate-700 hover:text-orange-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-slate-50 ${isRTL ? 'text-right' : 'text-left'}`}
                     onClick={() => handleNavigation(item.href, item.label)}
                   >
                     {item.label}
@@ -358,8 +388,8 @@ const Header = () => {
                       className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none flex-1 min-w-0"
                       style={{ direction: 'ltr' }}
                     >
-                      <option value="en">English</option>
                       <option value="he">עברית</option>
+                      <option value="en">English</option>
                       <option value="ar">العربية</option>
                     </select>
                   </div>

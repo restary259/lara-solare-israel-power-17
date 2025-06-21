@@ -45,7 +45,7 @@ const FloatingCTA = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="fixed bottom-6 right-6 z-50 flex flex-col space-y-3"
+          className="fixed bottom-4 right-4 z-50 flex flex-col space-y-2 sm:space-y-3"
           style={{ willChange: 'transform' }}
         >
           {/* WhatsApp Button */}
@@ -55,12 +55,13 @@ const FloatingCTA = () => {
             transition={{ duration: 0.1 }}
           >
             <Button
-              size="lg"
-              className="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg border-2 border-white/20"
+              size="sm"
+              className="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg border-2 border-white/20 h-8 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm"
               onClick={() => window.open('https://wa.me/972123456789', '_blank')}
             >
-              <MessageCircle className="h-5 w-5 mr-2" />
+              <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">{t('whatsappUs')}</span>
+              <span className="sm:hidden">WhatsApp</span>
             </Button>
           </motion.div>
 
@@ -71,12 +72,13 @@ const FloatingCTA = () => {
             transition={{ duration: 0.1 }}
           >
             <Button
-              size="lg"
-              className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-full shadow-lg border-2 border-white/20"
+              size="sm"
+              className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-full shadow-lg border-2 border-white/20 h-8 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm"
               onClick={() => window.open('tel:+972123456789', '_self')}
             >
-              <Phone className="h-5 w-5 mr-2" />
+              <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
               <span className="hidden sm:inline">{t('callUs')}</span>
+              <span className="sm:hidden">Call</span>
             </Button>
           </motion.div>
 
@@ -87,8 +89,8 @@ const FloatingCTA = () => {
             transition={{ duration: 0.1 }}
           >
             <Button
-              size="lg"
-              className="bg-slate-800 hover:bg-slate-700 text-white rounded-full shadow-lg border-2 border-white/20"
+              size="sm"
+              className="bg-slate-800 hover:bg-slate-700 text-white rounded-full shadow-lg border-2 border-white/20 h-8 sm:h-10 px-3 sm:px-4 text-xs sm:text-sm"
             >
               <span className="hidden sm:inline">{t('requestQuote')}</span>
               <span className="sm:hidden">Quote</span>

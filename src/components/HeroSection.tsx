@@ -158,14 +158,14 @@ const HeroSection = () => {
               <div className="flex justify-center mb-3">
                 <Award className="h-8 w-8 text-yellow-400" />
               </div>
-              <div className="text-3xl font-bold text-yellow-400 mb-2">1000+</div>
+              <div className="text-3xl font-bold text-yellow-400 mb-2">3000+</div>
               <div className="text-slate-300">{t('installations')}</div>
             </div>
             <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <div className="flex justify-center mb-3">
                 <Star className="h-8 w-8 text-orange-400" />
               </div>
-              <div className="text-3xl font-bold text-orange-400 mb-2">15+</div>
+              <div className="text-3xl font-bold text-orange-400 mb-2">7+</div>
               <div className="text-slate-300">{t('yearsExperience')}</div>
             </div>
             <div className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">

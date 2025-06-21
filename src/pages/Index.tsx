@@ -12,6 +12,7 @@ import ProductsSection from "@/components/ProductsSection";
 import ServicesSection from "@/components/ServicesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ContactSection from "@/components/ContactSection";
+import SolarCalculator from "@/components/SolarCalculator";
 import FloatingCTA from "@/components/FloatingCTA";
 import Footer from "@/components/Footer";
 
@@ -23,6 +24,7 @@ const Index = () => {
         <HeroSection />
         <WhyLaraSolare />
         <ProductsSection />
+        <SolarCalculator />
         <ServicesSection />
         <TestimonialsSection />
         <ContactSection />

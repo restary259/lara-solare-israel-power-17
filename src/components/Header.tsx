@@ -1,4 +1,3 @@
-
 import { useState, createContext, useContext } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe } from "lucide-react";
@@ -13,7 +12,7 @@ const LanguageContext = createContext({
 
 export const useLanguage = () => useContext(LanguageContext);
 
-// Translations
+// Enhanced translations with all necessary keys
 const translations = {
   en: {
     home: 'Home',
@@ -47,7 +46,34 @@ const translations = {
     becomePartner: 'Become a Partner',
     requestQuote: 'Request Quote',
     whatsappUs: 'WhatsApp Us',
-    callUs: 'Call Us'
+    callUs: 'Call Us',
+    // Footer translations
+    company: 'Company',
+    aboutUs: 'About Us',
+    ourStory: 'Our Story',
+    careers: 'Careers',
+    news: 'News',
+    residentialSystems: 'Residential Systems',
+    commercialSolutions: 'Commercial Solutions',
+    warranties: 'Warranties',
+    maintenance: 'Maintenance',
+    customerSupport: 'Customer Support',
+    installationGuide: 'Installation Guide',
+    faq: 'FAQ',
+    contactUs: 'Contact Us',
+    workingHours: 'Sun-Thu 8:00-18:00',
+    responseTime: '24h response time',
+    allOfIsrael: 'All of Israel',
+    followUs: 'Follow Us',
+    allRightsReserved: 'All rights reserved.',
+    privacyPolicy: 'Privacy Policy',
+    termsOfService: 'Terms of Service',
+    cookiePolicy: 'Cookie Policy',
+    partnerWithUs: 'Partner With Us',
+    companyCredentials: 'Licensed Solar Installation Company | Israeli Standards Institute Certified | Import License #IL-SOLAR-2024 | VAT: IL123456789',
+    footerDescription: 'Leading provider of premium solar water heating solutions in Israel. Custom-designed systems with Chinese technology and local expertise.',
+    successfulInstallations: 'Successful Installations',
+    acrossIsrael: 'Across Israel'
   },
   he: {
     home: 'בית',
@@ -81,7 +107,34 @@ const translations = {
     becomePartner: 'הפוך לשותף',
     requestQuote: 'בקש הצעת מחיר',
     whatsappUs: 'צור קשר בוואטסאפ',
-    callUs: 'התקשר אלינו'
+    callUs: 'התקשר אלינו',
+    // Footer translations
+    company: 'החברה',
+    aboutUs: 'אודותינו',
+    ourStory: 'הסיפור שלנו',
+    careers: 'קריירה',
+    news: 'חדשות',
+    residentialSystems: 'מערכות ביתיות',
+    commercialSolutions: 'פתרונות מסחריים',
+    warranties: 'אחריות',
+    maintenance: 'תחזוקה',
+    customerSupport: 'תמיכת לקוחות',
+    installationGuide: 'מדריך התקנה',
+    faq: 'שאלות נפוצות',
+    contactUs: 'צור קשר',
+    workingHours: 'א׳-ה׳ 8:00-18:00',
+    responseTime: 'תגובה תוך 24 שעות',
+    allOfIsrael: 'כל ישראל',
+    followUs: 'עקבו אחרינו',
+    allRightsReserved: 'כל הזכויות שמורות.',
+    privacyPolicy: 'מדיניות פרטיות',
+    termsOfService: 'תנאי שירות',
+    cookiePolicy: 'מדיניות עוגיות',
+    partnerWithUs: 'הצטרפו כשותפים',
+    companyCredentials: 'חברת התקנת דודי שמש מורשית | מאושרת על ידי מכון התקנים הישראלי | רישיון יבוא #IL-SOLAR-2024 | מע״ם: IL123456789',
+    footerDescription: 'ספק מוביל של פתרונות דוד שמש איכותיים בישראל. מערכות מותאמות אישית עם טכנולוגיה סינית ומומחיות מקומית.',
+    successfulInstallations: 'התקנות מוצלחות',
+    acrossIsrael: 'ברחבי ישראל'
   },
   ar: {
     home: 'الرئيسية',
@@ -115,7 +168,34 @@ const translations = {
     becomePartner: 'كن شريكاً',
     requestQuote: 'اطلب عرض سعر',
     whatsappUs: 'راسلنا عبر واتساب',
-    callUs: 'اتصل بنا'
+    callUs: 'اتصل بنا',
+    // Footer translations
+    company: 'الشركة',
+    aboutUs: 'حولنا',
+    ourStory: 'قصتنا',
+    careers: 'وظائف',
+    news: 'أخبار',
+    residentialSystems: 'أنظمة سكنية',
+    commercialSolutions: 'حلول تجارية',
+    warranties: 'ضمانات',
+    maintenance: 'صيانة',
+    customerSupport: 'دعم العملاء',
+    installationGuide: 'دليل التركيب',
+    faq: 'أسئلة شائعة',
+    contactUs: 'اتصل بنا',
+    workingHours: 'الأحد-الخميس 8:00-18:00',
+    responseTime: 'وقت الاستجابة 24 ساعة',
+    allOfIsrael: 'جميع أنحاء إسرائيل',
+    followUs: 'تابعونا',
+    allRightsReserved: 'جميع الحقوق محفوظة.',
+    privacyPolicy: 'سياسة الخصوصية',
+    termsOfService: 'شروط الخدمة',
+    cookiePolicy: 'سياسة الكوكيز',
+    partnerWithUs: 'كن شريكاً معنا',
+    companyCredentials: 'شركة تركيب دوود شمسية مرخصة | معتمدة من معهد المعايير الإسرائيلي | رخصة استيراد #IL-SOLAR-2024 | ضريبة القيمة المضافة: IL123456789',
+    footerDescription: 'مزود رائد لحلول سخانات المياه الشمسية المتميزة في إسرائيل. أنظمة مصممة خصيصاً بتقنية صينية وخبرة محلية.',
+    successfulInstallations: 'تركيبات ناجحة',
+    acrossIsrael: 'في جميع أنحاء إسرائيل'
   }
 };
 
@@ -175,10 +255,17 @@ const Header = () => {
               <motion.a
                 key={item.href}
                 href={item.href}
-                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group"
+                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={(e) => {
+                  if (item.href.startsWith('#')) {
+                    e.preventDefault();
+                    const element = document.getElementById(item.href.slice(1));
+                    element?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300"></span>
@@ -188,19 +275,20 @@ const Header = () => {
 
           {/* Language Selector & CTA */}
           <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center space-x-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200">
-              <Globe className="h-4 w-4 text-slate-600" />
+            <div className="flex items-center space-x-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 min-w-fit">
+              <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
               <select 
                 value={language} 
                 onChange={(e) => setLanguage(e.target.value)}
-                className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none cursor-pointer"
+                className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none cursor-pointer min-w-0"
+                style={{ direction: 'ltr' }}
               >
                 <option value="en">English</option>
                 <option value="he">עברית</option>
                 <option value="ar">العربية</option>
               </select>
             </div>
-            <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap">
               {t('getQuote')}
             </Button>
           </div>
@@ -229,25 +317,33 @@ const Header = () => {
                     key={item.href}
                     href={item.href}
                     className="text-slate-700 hover:text-orange-600 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-slate-50"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => {
+                      setIsMenuOpen(false);
+                      if (item.href.startsWith('#')) {
+                        e.preventDefault();
+                        const element = document.getElementById(item.href.slice(1));
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
                   >
                     {item.label}
                   </a>
                 ))}
                 <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                   <div className="flex items-center space-x-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200">
-                    <Globe className="h-4 w-4 text-slate-600" />
+                    <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
                     <select 
                       value={language} 
                       onChange={(e) => setLanguage(e.target.value)}
                       className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none"
+                      style={{ direction: 'ltr' }}
                     >
                       <option value="en">English</option>
                       <option value="he">עברית</option>
                       <option value="ar">العربية</option>
                     </select>
                   </div>
-                  <Button size="sm" className="bg-gradient-to-r from-orange-500 to-yellow-500 shadow-lg">
+                  <Button size="sm" className="bg-gradient-to-r from-orange-500 to-yellow-500 shadow-lg whitespace-nowrap">
                     {t('getQuote')}
                   </Button>
                 </div>

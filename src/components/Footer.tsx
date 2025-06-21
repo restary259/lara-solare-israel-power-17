@@ -1,28 +1,30 @@
 
-import { Sun, Phone, Mail, MapPin, Globe } from "lucide-react";
+import { Sun, Phone, Mail, MapPin, Globe, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "./Header";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   const footerLinks = {
     company: [
-      { name: "About Us", href: "#about", nameHe: "אודותינו", nameAr: "حولنا" },
-      { name: "Our Story", href: "#story", nameHe: "הסיפור שלנו", nameAr: "قصتنا" },
-      { name: "Careers", href: "#careers", nameHe: "קריירה", nameAr: "وظائف" },
-      { name: "News", href: "#news", nameHe: "חדשות", nameAr: "أخبار" }
+      { name: t('aboutUs'), href: "#about", action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
+      { name: t('ourStory'), href: "#story", action: () => console.log('Navigate to story') },
+      { name: t('careers'), href: "#careers", action: () => console.log('Navigate to careers') },
+      { name: t('news'), href: "#news", action: () => console.log('Navigate to news') }
     ],
     products: [
-      { name: "Residential Systems", href: "#products", nameHe: "מערכות ביתיות", nameAr: "أنظمة سكنية" },
-      { name: "Commercial Solutions", href: "#commercial", nameHe: "פתרונות מסחריים", nameAr: "حلول تجارية" },
-      { name: "Warranties", href: "#warranty", nameHe: "אחריות", nameAr: "ضمانات" },
-      { name: "Maintenance", href: "#maintenance", nameHe: "תחזוקה", nameAr: "صيانة" }
+      { name: t('residentialSystems'), href: "#products", action: () => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }) },
+      { name: t('commercialSolutions'), href: "#commercial", action: () => console.log('Navigate to commercial') },
+      { name: t('warranties'), href: "#warranty", action: () => console.log('Navigate to warranty') },
+      { name: t('maintenance'), href: "#maintenance", action: () => console.log('Navigate to maintenance') }
     ],
     support: [
-      { name: "Customer Support", href: "#support", nameHe: "תמיכת לקוחות", nameAr: "دعم العملاء" },
-      { name: "Installation Guide", href: "#guide", nameHe: "מדריך התקנה", nameAr: "دليل التركيب" },
-      { name: "FAQ", href: "#faq", nameHe: "שאלות נפוצות", nameAr: "أسئلة شائعة" },
-      { name: "Contact Us", href: "#contact", nameHe: "צור קשר", nameAr: "اتصل بنا" }
+      { name: t('customerSupport'), href: "#support", action: () => window.open('tel:+972545263226', '_self') },
+      { name: t('installationGuide'), href: "#guide", action: () => console.log('Open installation guide') },
+      { name: t('faq'), href: "#faq", action: () => console.log('Navigate to FAQ') },
+      { name: t('contactUs'), href: "#contact", action: () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }) }
     ]
   };
 
@@ -47,16 +49,21 @@ const Footer = () => {
               />
             </div>
             <p className="text-slate-300 mb-6 leading-relaxed">
-              Leading provider of premium solar water heating solutions in Israel. 
-              Custom-designed systems with Chinese technology and local expertise.
+              {t('footerDescription')}
             </p>
-            <div className="flex space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full flex items-center justify-center">
-                <Sun className="h-5 w-5 text-white" />
+            <div className="space-y-4">
+              <div className="flex space-x-4">
+                <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-full flex items-center justify-center">
+                  <Sun className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium">{t('certifiedExcellence')}</div>
+                  <div className="text-xs text-slate-400">{t('yearsExperience')}: 7+</div>
+                </div>
               </div>
-              <div>
-                <div className="text-sm font-medium">Certified Excellence</div>
-                <div className="text-xs text-slate-400">IS Standards Compliant</div>
+              <div className="text-sm text-slate-300">
+                <div className="font-semibold text-orange-400">3,000+ {t('successfulInstallations')}</div>
+                <div className="text-xs text-slate-400">{t('acrossIsrael')}</div>
               </div>
             </div>
           </motion.div>
@@ -68,16 +75,16 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-bold mb-6 text-white">Company</h3>
+            <h3 className="text-lg font-bold mb-6 text-white">{t('company')}</h3>
             <ul className="space-y-3">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href} 
-                    className="text-slate-300 hover:text-orange-400 transition-colors text-sm"
+                  <button 
+                    onClick={link.action}
+                    className="text-slate-300 hover:text-orange-400 transition-colors text-sm text-left"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -90,16 +97,16 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-bold mb-6 text-white">Products</h3>
+            <h3 className="text-lg font-bold mb-6 text-white">{t('products')}</h3>
             <ul className="space-y-3">
               {footerLinks.products.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href} 
-                    className="text-slate-300 hover:text-orange-400 transition-colors text-sm"
+                  <button 
+                    onClick={link.action}
+                    className="text-slate-300 hover:text-orange-400 transition-colors text-sm text-left"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -112,37 +119,50 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-lg font-bold mb-6 text-white">Contact</h3>
+            <h3 className="text-lg font-bold mb-6 text-white">{t('contact')}</h3>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-orange-400" />
+                <Phone className="h-4 w-4 text-orange-400 flex-shrink-0" />
                 <div>
-                  <div className="text-sm font-medium">+972-50-123-4567</div>
-                  <div className="text-xs text-slate-400">Sun-Thu 8:00-18:00</div>
+                  <a href="tel:+972545263226" className="text-sm font-medium hover:text-orange-400 transition-colors">
+                    +972-54-526-3226
+                  </a>
+                  <div className="text-xs text-slate-400">{t('workingHours')}</div>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-orange-400" />
+                <Mail className="h-4 w-4 text-orange-400 flex-shrink-0" />
                 <div>
-                  <div className="text-sm font-medium">info@larasolare.co.il</div>
-                  <div className="text-xs text-slate-400">24h response time</div>
+                  <a href="mailto:info@larasolare.com" className="text-sm font-medium hover:text-orange-400 transition-colors">
+                    info@larasolare.com
+                  </a>
+                  <div className="text-xs text-slate-400">{t('responseTime')}</div>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-orange-400" />
+                <MapPin className="h-4 w-4 text-orange-400 flex-shrink-0" />
                 <div>
-                  <div className="text-sm font-medium">Nationwide Service</div>
-                  <div className="text-xs text-slate-400">All of Israel</div>
+                  <div className="text-sm font-medium">{t('nationwideService')}</div>
+                  <div className="text-xs text-slate-400">{t('allOfIsrael')}</div>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
-                <Globe className="h-4 w-4 text-orange-400" />
-                <div className="flex space-x-2 text-sm">
-                  <span className="text-white cursor-pointer hover:text-orange-400">English</span>
-                  <span className="text-slate-400">|</span>
-                  <span className="text-slate-300 cursor-pointer hover:text-orange-400">עברית</span>
-                  <span className="text-slate-400">|</span>
-                  <span className="text-slate-300 cursor-pointer hover:text-orange-400">العربية</span>
+              
+              {/* Social Media Icons */}
+              <div className="pt-4">
+                <div className="text-sm font-medium mb-3">{t('followUs')}</div>
+                <div className="flex space-x-3">
+                  <a href="#" className="w-8 h-8 bg-slate-800 hover:bg-orange-500 rounded-full flex items-center justify-center transition-colors">
+                    <Facebook className="h-4 w-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-slate-800 hover:bg-orange-500 rounded-full flex items-center justify-center transition-colors">
+                    <Instagram className="h-4 w-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-slate-800 hover:bg-orange-500 rounded-full flex items-center justify-center transition-colors">
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                  <a href="#" className="w-8 h-8 bg-slate-800 hover:bg-orange-500 rounded-full flex items-center justify-center transition-colors">
+                    <Twitter className="h-4 w-4" />
+                  </a>
                 </div>
               </div>
             </div>
@@ -161,24 +181,38 @@ const Footer = () => {
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-slate-400 text-sm">
-              © {currentYear} Lara Solare Energy. All rights reserved.
+              © {currentYear} Lara Solare Energy. {t('allRightsReserved')}
             </div>
-            <div className="flex space-x-6 text-sm">
-              <a href="#privacy" className="text-slate-400 hover:text-orange-400 transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#terms" className="text-slate-400 hover:text-orange-400 transition-colors">
-                Terms of Service
-              </a>
-              <a href="#cookies" className="text-slate-400 hover:text-orange-400 transition-colors">
-                Cookie Policy
-              </a>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm">
+              <button 
+                onClick={() => console.log('Open privacy policy')}
+                className="text-slate-400 hover:text-orange-400 transition-colors"
+              >
+                {t('privacyPolicy')}
+              </button>
+              <button 
+                onClick={() => console.log('Open terms of service')}
+                className="text-slate-400 hover:text-orange-400 transition-colors"
+              >
+                {t('termsOfService')}
+              </button>
+              <button 
+                onClick={() => console.log('Open cookie policy')}
+                className="text-slate-400 hover:text-orange-400 transition-colors"
+              >
+                {t('cookiePolicy')}
+              </button>
+              <button 
+                onClick={() => window.open('/partners', '_self')}
+                className="text-slate-400 hover:text-orange-400 transition-colors font-medium"
+              >
+                {t('partnerWithUs')}
+              </button>
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-800 text-center">
             <p className="text-slate-500 text-xs">
-              Licensed Solar Installation Company | Israeli Standards Institute Certified | 
-              Import License #IL-SOLAR-2024 | VAT: IL123456789
+              {t('companyCredentials')}
             </p>
           </div>
         </div>

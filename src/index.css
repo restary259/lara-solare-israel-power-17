@@ -81,17 +81,27 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    /* Smooth scrolling with better performance */
+    scroll-behavior: smooth;
+    /* Prevent layout shifts */
+    scroll-padding-top: 0;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent horizontal overflow and layout shifts */
+    overflow-x: hidden;
+    min-height: 100vh;
   }
   
-  /* Smooth scrolling for the entire page */
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  /* Reduced motion for accessibility and mobile */
+  /* Prevent scroll-related animation glitches */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -103,14 +113,19 @@
     }
   }
   
-  /* Mobile-optimized smooth transitions */
+  /* Optimized transitions to prevent scroll glitches */
   * {
-    transition: all 0.15s ease-in-out;
+    transition: transform 0.1s ease-out, opacity 0.1s ease-out;
   }
   
+  /* Disable smooth scrolling on mobile for better performance */
   @media (max-width: 768px) {
+    html {
+      scroll-behavior: auto;
+    }
+    
     * {
-      transition-duration: 0.1s;
+      transition-duration: 0.05s;
     }
   }
   
@@ -148,7 +163,7 @@
     margin-inline-start: 2rem;
   }
   
-  /* Remove default space-x margins */
+  /* Remove default space-x margins for RTL */
   [dir="rtl"] .space-x-1 > :not([hidden]) ~ :not([hidden]),
   [dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]),
   [dir="rtl"] .space-x-3 > :not([hidden]) ~ :not([hidden]),
@@ -159,7 +174,7 @@
     margin-right: 0;
   }
   
-  /* Container improvements for mobile */
+  /* Container improvements */
   .container {
     width: 100%;
     margin-inline: auto;
@@ -198,15 +213,7 @@
     }
   }
   
-  /* Optimize font rendering */
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-  
-  /* Mobile text sizing */
+  /* Mobile text sizing with no layout shifts */
   @media (max-width: 768px) {
     h1 {
       font-size: clamp(1.875rem, 8vw, 3rem);
@@ -229,40 +236,25 @@
     }
   }
   
-  /* Performance optimizations */
+  /* Performance optimizations to prevent repaints */
   img {
-    will-change: transform;
+    will-change: auto;
+    transform: translateZ(0);
   }
   
-  .animate-fade-in,
-  .animate-scale-in {
-    will-change: transform, opacity;
-  }
-  
-  /* Prevent layout shifts */
+  /* Prevent layout shifts from images */
   img,
   video {
     height: auto;
     max-width: 100%;
+    display: block;
   }
   
-  /* Mobile-optimized buttons */
+  /* Mobile-optimized buttons with no overflow */
   @media (max-width: 768px) {
     button {
       min-height: 44px;
       min-width: 44px;
-    }
-  }
-  
-  /* Prevent horizontal overflow */
-  body {
-    overflow-x: hidden;
-  }
-  
-  /* Smooth scrolling with mobile optimization */
-  @media (max-width: 768px) {
-    html {
-      scroll-behavior: auto;
     }
   }
   
@@ -274,11 +266,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0.5rem;
     }
+  }
+  
+  /* Prevent scroll-triggered animations on elements */
+  .no-scroll-animation {
+    animation: none !important;
+    transition: none !important;
   }
 }
 
-/* Custom scrollbar with RTL support */
+/* Optimized scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -319,27 +318,64 @@
   }
 }
 
-/* Animation performance improvements for mobile */
+/* Performance improvements for mobile - disable animations that cause scroll issues */
 @media (max-width: 768px) {
-  .motion-reduce {
+  .motion-reduce,
+  .animate-fade-in,
+  .animate-scale-in {
     animation: none !important;
-    transition: none !important;
+    transition: opacity 0.1s ease-out !important;
   }
 }
 
-/* Focus improvements for accessibility */
+/* Focus improvements */
 *:focus-visible {
   outline: 2px solid #f97316;
   outline-offset: 2px;
 }
 
-/* Better touch interactions */
+/* Better touch interactions - prevent hover effects on scroll */
 @media (hover: none) and (pointer: coarse) {
-  button:hover {
-    transform: none;
+  button:hover,
+  .hover\\:scale-105:hover,
+  .hover\\:scale-110:hover {
+    transform: none !important;
   }
-  
-  .hover\\:scale-105:hover {
-    transform: none;
+}
+
+/* Prevent layout shifts from loading content */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Intersection Observer fade-in that doesn't cause scroll glitches */
+.fade-in-on-scroll {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.fade-in-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Disable the above on mobile for better performance */
+@media (max-width: 768px) {
+  .fade-in-on-scroll {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: none !important;
   }
 }

@@ -1,5 +1,5 @@
 
-import { useState, createContext, useContext } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -208,6 +208,13 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
   };
 
+  // Set document attributes for RTL support
+  useEffect(() => {
+    const isRTL = language === 'he' || language === 'ar';
+    document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('lang', language);
+  }, [language]);
+
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
       <div className={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'} dir={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'}>
@@ -222,6 +229,7 @@ const Header = () => {
   const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
+  const isRTL = language === 'he' || language === 'ar';
 
   const handleNavigation = (href: string, label: string) => {
     if (href.startsWith('#')) {
@@ -247,21 +255,21 @@ const Header = () => {
 
   const menuItems = [
     { href: '/', label: t('home') },
-    { href: '#products', label: t('products') },
-    { href: '#services', label: t('services') },
-    { href: '#about', label: t('about') },
-    { href: '#contact', label: t('contact') },
+    { href: '/products', label: t('products') },
+    { href: '/services', label: t('services') },
+    { href: '/about', label: t('about') },
+    { href: '/contact', label: t('contact') },
     { href: '/partners', label: t('partners') },
   ];
 
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm border-b border-slate-100">
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div 
-            className="flex items-center space-x-3 cursor-pointer"
-            initial={{ opacity: 0, x: -20 }}
+            className="flex items-center space-x-3 cursor-pointer min-w-0 shrink-0"
+            initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             onClick={() => navigate('/')}
@@ -270,32 +278,32 @@ const Header = () => {
               <img 
                 src="/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png" 
                 alt="Lara Solare Energy" 
-                className="h-12 w-auto"
+                className="h-10 md:h-12 w-auto"
               />
               <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
             </div>
           </motion.div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {menuItems.map((item, index) => (
               <motion.button
                 key={item.href}
-                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap"
+                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap text-sm lg:text-base"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => handleNavigation(item.href, item.label)}
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300"></span>
+                <span className={`absolute -bottom-1 ${isRTL ? 'right-0' : 'left-0'} w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300`}></span>
               </motion.button>
             ))}
           </nav>
 
           {/* Language Selector & CTA */}
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center space-x-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 min-w-fit">
+          <div className="hidden md:flex items-center gap-3 lg:gap-4 shrink-0">
+            <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 min-w-fit">
               <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
               <select 
                 value={language} 
@@ -308,14 +316,14 @@ const Header = () => {
                 <option value="ar">العربية</option>
               </select>
             </div>
-            <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap">
+            <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm px-4 py-2">
               {t('getQuote')}
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors shrink-0"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -331,23 +339,23 @@ const Header = () => {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden mt-4 pb-4 border-t border-slate-100"
             >
-              <nav className="flex flex-col space-y-4 pt-4">
+              <nav className="flex flex-col space-y-3 pt-4">
                 {menuItems.map((item) => (
                   <button
                     key={item.href}
-                    className="text-slate-700 hover:text-orange-600 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-slate-50 text-left"
+                    className={`text-slate-700 hover:text-orange-600 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-slate-50 ${isRTL ? 'text-right' : 'text-left'}`}
                     onClick={() => handleNavigation(item.href, item.label)}
                   >
                     {item.label}
                   </button>
                 ))}
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                  <div className="flex items-center space-x-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200">
+                <div className={`flex items-center ${isRTL ? 'justify-start' : 'justify-between'} pt-4 border-t border-slate-100 gap-3`}>
+                  <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 flex-1 max-w-[140px]">
                     <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
                     <select 
                       value={language} 
                       onChange={(e) => setLanguage(e.target.value)}
-                      className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none"
+                      className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none flex-1 min-w-0"
                       style={{ direction: 'ltr' }}
                     >
                       <option value="en">English</option>
@@ -355,7 +363,7 @@ const Header = () => {
                       <option value="ar">العربية</option>
                     </select>
                   </div>
-                  <Button size="sm" className="bg-gradient-to-r from-orange-500 to-yellow-500 shadow-lg whitespace-nowrap">
+                  <Button size="sm" className="bg-gradient-to-r from-orange-500 to-yellow-500 shadow-lg whitespace-nowrap text-sm px-4 py-2">
                     {t('getQuote')}
                   </Button>
                 </div>

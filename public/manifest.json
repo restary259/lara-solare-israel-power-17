@@ -1,0 +1,57 @@
+
+{
+  "name": "Lara Solare Energy - Premium Solar Water Heaters",
+  "short_name": "Lara Solare",
+  "description": "Leading solar water heater provider in Israel with 7+ years experience and 3,000+ installations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "categories": ["business", "utilities", "productivity"],
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "share_target": {
+    "action": "/share-target/",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

@@ -49,11 +49,12 @@ const BottomNavigation: React.FC = () => {
 
   return (
     <nav 
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200 safe-area-bottom"
+      className="bottom-nav fixed bottom-0 left-0 right-0 z-[999] bg-white shadow-nav border-t border-slate-200"
       role="tablist"
       aria-label="ניווט ראשי"
+      dir="rtl"
     >
-      <div className="flex items-center justify-around px-2 py-1">
+      <div className="flex items-center justify-around">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
@@ -66,26 +67,31 @@ const BottomNavigation: React.FC = () => {
               aria-label={item.ariaLabel}
               aria-selected={isActive}
               className={cn(
-                "flex flex-col items-center justify-center min-w-[48px] min-h-[48px] px-2 py-1 rounded-lg transition-all duration-200",
-                "touch-target focus-ring",
-                "active:scale-95 active:bg-slate-100",
+                "relative flex flex-col items-center justify-center min-w-[60px] py-2 px-3 transition-all duration-150 ease-out",
+                "focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:rounded-lg",
+                "active:scale-95 active:transition-transform active:duration-75",
                 isActive 
-                  ? "text-orange-600" 
-                  : "text-slate-600 hover:text-slate-800 hover:bg-slate-50"
+                  ? "text-orange-500" 
+                  : "text-slate-600 active:text-slate-800"
               )}
             >
               <Icon 
                 className={cn(
-                  "w-6 h-6 mb-1 transition-colors",
-                  isActive ? "fill-current" : ""
+                  "w-6 h-6 mb-1 transition-colors duration-150",
+                  isActive ? "fill-current stroke-[1.5]" : "stroke-2"
                 )} 
               />
               <span className={cn(
-                "text-xs font-medium leading-none",
-                isActive ? "text-orange-600" : "text-slate-600"
+                "text-[10px] font-medium leading-none transition-colors duration-150",
+                isActive ? "text-orange-500" : "text-slate-600"
               )}>
                 {item.label}
               </span>
+              
+              {/* Active indicator bar */}
+              {isActive && (
+                <div className="absolute bottom-0 left-1/4 w-1/2 h-0.5 bg-orange-500 rounded-full" />
+              )}
             </NavLink>
           );
         })}

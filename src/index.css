@@ -489,9 +489,75 @@ img {
 
 /* Bottom Navigation Specific Styles */
 .bottom-nav {
-  height: calc(64px + env(safe-area-inset-bottom, 0px));
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  height: 64px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: #ffffff;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  backdrop-filter: none; /* Remove blur for solid background */
+  -webkit-backdrop-filter: none;
+}
+
+/* Ensure content doesn't get hidden behind bottom nav */
+.content-with-bottom-nav {
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Enhanced touch targets for better mobile UX */
+.bottom-nav a {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Active state animation */
+.bottom-nav a:active {
+  transform: scale(0.95);
+  transition: transform 75ms ease-out;
+}
+
+/* Focus ring enhancement for accessibility */
+.bottom-nav a:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .bottom-nav {
+    background: #1e293b;
+    border-color: rgba(71, 85, 105, 0.3);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bottom-nav {
+    border-width: 2px;
+    background: white;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Responsive behavior - hide on larger screens */
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none !important;
+  }
+  
+  .content-with-bottom-nav {
+    padding-bottom: 0;
+  }
+}
+
+/* RTL support for navigation */
+.bottom-nav[dir="rtl"] {
+  direction: rtl;
+}
+
+/* Custom shadow utility */
+.shadow-nav {
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Enhanced Touch Targets */

@@ -18,7 +18,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
     <div className="min-h-screen flex flex-col">
       <main className={cn(
         "flex-1",
-        showBottomNav && "pb-20 md:pb-0", // Add bottom padding for mobile nav
+        showBottomNav && "content-with-bottom-nav", // Use the enhanced class
         className
       )}>
         {children}

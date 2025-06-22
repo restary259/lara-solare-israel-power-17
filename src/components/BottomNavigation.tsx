@@ -49,12 +49,12 @@ const BottomNavigation: React.FC = () => {
 
   return (
     <nav 
-      className="bottom-nav fixed bottom-0 left-0 right-0 z-[999] bg-white shadow-nav border-t border-slate-200"
+      className="bottom-nav"
       role="tablist"
       aria-label="ניווט ראשי"
       dir="rtl"
     >
-      <div className="flex items-center justify-around">
+      <div className="flex items-center justify-around h-full">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
@@ -67,7 +67,7 @@ const BottomNavigation: React.FC = () => {
               aria-label={item.ariaLabel}
               aria-selected={isActive}
               className={cn(
-                "relative flex flex-col items-center justify-center min-w-[60px] py-2 px-3 transition-all duration-150 ease-out",
+                "relative flex flex-col items-center justify-center min-w-[60px] py-2 px-3 transition-all duration-150 ease-out h-full",
                 "focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:rounded-lg",
                 "active:scale-95 active:transition-transform active:duration-75",
                 isActive 

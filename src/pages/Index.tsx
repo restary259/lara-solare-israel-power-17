@@ -15,12 +15,11 @@ import ContactSection from "@/components/ContactSection";
 import SolarCalculator from "@/components/SolarCalculator";
 import FloatingCTA from "@/components/FloatingCTA";
 import Footer from "@/components/Footer";
-import PageLayout from "@/components/PageLayout";
 
 const Index = () => {
   return (
     <LanguageProvider>
-      <PageLayout>
+      <main className="content-with-bottom-nav">
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
           <Header />
           <HeroSection />
@@ -33,7 +32,7 @@ const Index = () => {
           <Footer />
           <FloatingCTA />
         </div>
-      </PageLayout>
+      </main>
     </LanguageProvider>
   );
 };

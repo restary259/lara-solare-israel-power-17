@@ -6,49 +6,61 @@ import { motion } from "framer-motion";
 import { useLanguage } from "./Header";
 
 const WhyLaraSolare = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const features = [
     {
       icon: Sun,
       title: t('customMade'),
-      description: "Premium solar water heaters designed specifically for Israeli climate conditions with advanced Chinese manufacturing technology.",
-      badge: "Premium Quality",
+      description: language === 'he' 
+        ? "דודי שמש איכותיים המותאמים במיוחד לתנאי האקלים הישראלי עם טכנולוגיית ייצור סינית מתקדמת."
+        : "Premium solar water heaters designed specifically for Israeli climate conditions with advanced Chinese manufacturing technology.",
+      badge: language === 'he' ? "איכות פרימיום" : "Premium Quality",
       color: "from-orange-500 to-red-500"
     },
     {
       icon: Users,
       title: t('localExpertise'),
-      description: "Founded by industry veterans with deep understanding of Israeli market needs and regulatory requirements.",
-      badge: "15+ Years",
+      description: language === 'he' 
+        ? "נוסדה על ידי ותיקי התעשייה עם הבנה עמוקה של צרכי השוק הישראלי ודרישות רגולטוריות."
+        : "Founded by industry veterans with deep understanding of Israeli market needs and regulatory requirements.",
+      badge: language === 'he' ? "15+ שנים" : "15+ Years",
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Shield,
       title: t('warranty'),
-      description: "Industry-leading warranty coverage with local support and maintenance services throughout Israel.",
-      badge: "10 Year Warranty",
+      description: language === 'he' 
+        ? "כיסוי אחריות מוביל בתעשייה עם תמיכה מקומית ושירותי תחזוקה ברחבי ישראל."
+        : "Industry-leading warranty coverage with local support and maintenance services throughout Israel.",
+      badge: language === 'he' ? "10 שנות אחריות" : "10 Year Warranty",
       color: "from-green-500 to-emerald-500"
     },
     {
       icon: Zap,
       title: t('highEfficiency'),
-      description: "Up to 95% thermal efficiency with advanced heat exchange technology and superior insulation materials.",
-      badge: "95% Efficiency",
+      description: language === 'he' 
+        ? "יעילות תרמית של עד 95% עם טכנולוגיית חילופי חום מתקדמת וחומרי בידוד מעולים."
+        : "Up to 95% thermal efficiency with advanced heat exchange technology and superior insulation materials.",
+      badge: language === 'he' ? "95% יעילות" : "95% Efficiency",
       color: "from-yellow-500 to-orange-500"
     },
     {
       icon: Globe,
       title: t('nationwideService'),
-      description: "Professional installation and maintenance services available across Israel, from north to south.",
-      badge: "Israel Wide",
+      description: language === 'he' 
+        ? "שירותי התקנה ותחזוקה מקצועיים זמינים ברחבי ישראל, מצפון ועד דרום."
+        : "Professional installation and maintenance services available across Israel, from north to south.",
+      badge: language === 'he' ? "ברחבי ישראל" : "Israel Wide",
       color: "from-purple-500 to-pink-500"
     },
     {
       icon: Award,
       title: t('certifiedExcellence'),
-      description: "All products meet Israeli standards (IS) and international certifications for safety and performance.",
-      badge: "IS Certified",
+      description: language === 'he' 
+        ? "כל המוצרים עונים על התקן הישראלי (ת״י) והסמכות בינלאומיות לבטיחות וביצועים."
+        : "All products meet Israeli standards (IS) and international certifications for safety and performance.",
+      badge: language === 'he' ? "מוסמך ת״י" : "IS Certified",
       color: "from-indigo-500 to-blue-500"
     }
   ];
@@ -68,8 +80,10 @@ const WhyLaraSolare = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            We bridge the gap between cutting-edge Chinese solar technology and Israeli market expertise, 
-            delivering custom solutions that perfectly match your needs.
+            {language === 'he' 
+              ? "אנחנו מגשרים בין טכנולוגיית שמש סינית מתקדמת למומחיות שוק ישראלית, ומעניקים פתרונות מותאמים אישית שמתאימים בדיוק לצרכים שלכם."
+              : "We bridge the gap between cutting-edge Chinese solar technology and Israeli market expertise, delivering custom solutions that perfectly match your needs."
+            }
           </p>
         </motion.div>
 
@@ -109,7 +123,9 @@ const WhyLaraSolare = () => {
                     </CardDescription>
                     <div className="flex items-center mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                      <span className="text-sm text-green-600 font-medium">Verified Quality</span>
+                      <span className="text-sm text-green-600 font-medium">
+                        {language === 'he' ? "איכות מאומתת" : "Verified Quality"}
+                      </span>
                     </div>
                   </CardContent>
                 </Card>
@@ -128,21 +144,32 @@ const WhyLaraSolare = () => {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-3xl font-bold text-slate-800 mb-6">Our Founder's Story</h3>
+              <h3 className="text-3xl font-bold text-slate-800 mb-6">
+                {language === 'he' ? "הסיפור של המייסד שלנו" : "Our Founder's Story"}
+              </h3>
               <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-yellow-500 mb-6 rounded-full"></div>
               <p className="text-slate-600 mb-4 leading-relaxed">
-                With over 15 years in Israel's renewable energy sector, our founder recognized the gap between 
-                high-quality Chinese solar technology and local market needs. After establishing partnerships 
-                with leading Chinese manufacturers, Lara Solare was born.
+                {language === 'he' 
+                  ? "עם למעלה מ-15 שנים בתחום האנרגיה המתחדשת בישראל, המייסד שלנו זיהה את הפער בין טכנולוגיית שמש סינית איכותית לצרכי השוק המקומי. לאחר הקמת שותפויות עם יצרנים סיניים מובילים, נולדה לרה סולארה."
+                  : "With over 15 years in Israel's renewable energy sector, our founder recognized the gap between high-quality Chinese solar technology and local market needs. After establishing partnerships with leading Chinese manufacturers, Lara Solare was born."
+                }
               </p>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                Our mission is simple: deliver custom-designed, premium solar water heating solutions that 
-                combine Chinese manufacturing excellence with Israeli installation expertise and ongoing support.
+                {language === 'he' 
+                  ? "המשימה שלנו פשוטה: לספק פתרונות חימום מים סולאריים מותאמים אישית ופרמיום שמשלבים מצוינות ייצור סינית עם מומחיות התקנה ישראלית ותמיכה שוטפת."
+                  : "Our mission is simple: deliver custom-designed, premium solar water heating solutions that combine Chinese manufacturing excellence with Israeli installation expertise and ongoing support."
+                }
               </p>
               <div className="flex flex-wrap gap-4">
-                <Badge className="bg-orange-100 text-orange-800 px-4 py-2 border border-orange-200">Industry Pioneer</Badge>
-                <Badge className="bg-blue-100 text-blue-800 px-4 py-2 border border-blue-200">China-Israel Bridge</Badge>
-                <Badge className="bg-green-100 text-green-800 px-4 py-2 border border-green-200">Sustainability Expert</Badge>
+                <Badge className="bg-orange-100 text-orange-800 px-4 py-2 border border-orange-200">
+                  {language === 'he' ? "חלוץ בתעשייה" : "Industry Pioneer"}
+                </Badge>
+                <Badge className="bg-blue-100 text-blue-800 px-4 py-2 border border-blue-200">
+                  {language === 'he' ? "גשר סין-ישראל" : "China-Israel Bridge"}
+                </Badge>
+                <Badge className="bg-green-100 text-green-800 px-4 py-2 border border-green-200">
+                  {language === 'he' ? "מומחה קיימות" : "Sustainability Expert"}
+                </Badge>
               </div>
             </div>
             <div className="relative">
@@ -155,14 +182,23 @@ const WhyLaraSolare = () => {
                     >
                       <Sun className="h-16 w-16 text-orange-500 mx-auto mb-4" />
                     </motion.div>
-                    <p className="text-slate-600 font-medium">Bridging Technology</p>
-                    <p className="text-slate-600 font-medium">& Expertise</p>
+                    <p className="text-slate-600 font-medium">
+                      {language === 'he' ? "גישור טכנולוגיה" : "Bridging Technology"}
+                    </p>
+                    <p className="text-slate-600 font-medium">
+                      {language === 'he' ? "ומומחיות" : "& Expertise"}
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full opacity-20"></div>
               <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-400 rounded-full opacity-20"></div>
             </div>
+          </div>
+          <div className="mt-8 text-center">
+            <p className="text-slate-500 text-sm">
+              {language === 'he' ? "החלנו ב-2018 בתמרה" : "We started in 2018 in Tamara"}
+            </p>
           </div>
         </motion.div>
       </div>

@@ -245,11 +245,14 @@ img {
   width: 100vw;
   max-width: 100vw;
   height: 64px;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: #ffffff;
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid rgba(226, 232, 240, 1);
-  z-index: 999;
+  padding: 8px 0;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  z-index: 50;
   box-sizing: border-box;
 }
 
@@ -259,9 +262,12 @@ img {
 }
 
 /* Enhanced touch targets for better mobile UX */
-.bottom-nav a {
+.touch-target {
   min-height: 48px;
   min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Active state animation */
@@ -280,9 +286,9 @@ img {
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .bottom-nav {
-    background: #1e293b;
+    background: rgba(30, 41, 59, 0.95);
     border-color: rgba(71, 85, 105, 0.3);
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -290,8 +296,8 @@ img {
 @media (prefers-contrast: high) {
   .bottom-nav {
     border-width: 2px;
-    background: white;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -313,16 +319,7 @@ img {
 
 /* Custom shadow utility */
 .shadow-nav {
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Enhanced Touch Targets */
-.touch-target {
-  min-height: 48px;
-  min-width: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Focus Ring Enhancement */
@@ -338,19 +335,20 @@ img {
   transition: transform 0.1s ease-out;
 }
 
-/* Header menu fixes - Make three dots menu fully opaque and accessible */
+/* Header menu fixes - Make menu button fully opaque and accessible */
 header .mobile-menu-button,
 header .menu-button,
 header button {
   opacity: 1 !important;
   background: rgba(255, 255, 255, 0.95) !important;
-  padding: 12px !important;
-  min-height: 44px !important;
-  min-width: 44px !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
-  border-radius: 8px !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
+  padding: 12px !important;
+  min-height: 48px !important;
+  min-width: 48px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(226, 232, 240, 0.5) !important;
 }
 
 /* Desktop responsive layout fixes */
@@ -375,7 +373,7 @@ header button {
   }
 }
 
-/* Prevent any layout shifts or black margins */
+/* Prevent any layout shifts or margins */
 * {
   box-sizing: border-box;
 }
@@ -391,18 +389,22 @@ body, html {
   max-width: 100% !important;
 }
 
-/* Additional fixes for the three dots menu visibility */
-[data-radix-popper-content-wrapper] {
-  z-index: 1000 !important;
-}
-
 /* Dropdown menu enhancements */
 .dropdown-menu,
 [role="menu"] {
   background: white !important;
   opacity: 1 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   border: 1px solid rgba(226, 232, 240, 1) !important;
+  border-radius: 8px !important;
+}
+
+/* Sheet/drawer menu fixes */
+[data-radix-popper-content-wrapper],
+.sheet-content,
+[role="dialog"] {
+  z-index: 100 !important;
+  background: white !important;
 }
 
 /* Reduce motion preferences */
@@ -410,5 +412,62 @@ body, html {
   .active-scale:active {
     transform: none;
     transition: none;
+  }
+}
+
+/* Floating CTA positioning */
+.fixed.bottom-20 {
+  bottom: calc(5rem + 64px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+@media (min-width: 768px) {
+  .fixed.bottom-20 {
+    bottom: 5rem !important;
+  }
+}
+
+/* Improved spacing for Hebrew text */
+.rtl .text-center {
+  text-align: center;
+}
+
+.rtl .text-right {
+  text-align: right;
+}
+
+.rtl .text-left {
+  text-align: left;
+}
+
+/* Feature card improvements */
+.feature-card {
+  @apply bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300;
+}
+
+.feature-icon {
+  @apply w-16 h-16 mx-auto mb-4 p-4 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-full flex items-center justify-center;
+}
+
+/* Stats card spacing */
+.stats-card {
+  @apply text-center p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20;
+}
+
+.stats-icon {
+  @apply h-8 w-8 mx-auto mb-3;
+}
+
+/* Better mobile spacing */
+@media (max-width: 768px) {
+  .section-padding {
+    @apply py-12;
+  }
+  
+  .container-padding {
+    @apply px-4;
+  }
+  
+  .gap-consistent {
+    @apply gap-4;
   }
 }

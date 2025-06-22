@@ -1,9 +1,11 @@
-
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Home, Zap, Users, Phone, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from './Header';
+
+// Make sure your useLanguage returns language: "en" | "he" (not just "en" | "ar"!)
+type Language = "en" | "he"; // Add this if you want strict typing
 
 interface NavItem {
   path: string;
@@ -14,7 +16,8 @@ interface NavItem {
 
 const BottomNavigation: React.FC = () => {
   const location = useLocation();
-  const { t, language } = useLanguage();
+  const { t, language } = useLanguage() as { t: (key: string) => string; language: Language };
+  // If your useLanguage hook/type already returns correct type, you can skip the "as" cast above.
 
   const navItems: NavItem[] = [
     {

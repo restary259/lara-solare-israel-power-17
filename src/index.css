@@ -477,3 +477,131 @@ img {
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2;
 }
+
+/* PWA Safe Area Support */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-top, 0px);
+}
+
+/* Bottom Navigation Specific Styles */
+.bottom-nav {
+  height: calc(64px + env(safe-area-inset-bottom, 0px));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Enhanced Touch Targets */
+.touch-target {
+  min-height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Focus Ring Enhancement */
+.focus-ring:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Active State Animation */
+.active-scale:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease-out;
+}
+
+/* Backdrop Blur Support Check */
+@supports not (backdrop-filter: blur(20px)) {
+  .bottom-nav {
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* Dark Mode Support for Bottom Nav */
+@media (prefers-color-scheme: dark) {
+  .bottom-nav {
+    background: rgba(30, 41, 59, 0.95);
+    border-color: rgba(71, 85, 105, 0.3);
+  }
+}
+
+/* Ensure content doesn't get hidden behind bottom nav */
+.content-with-bottom-nav {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Responsive behavior - hide on larger screens */
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+  
+  .content-with-bottom-nav {
+    padding-bottom: 0;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .bottom-nav {
+    border-width: 2px;
+    background: white;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .active-scale:active {
+    transform: none;
+    transition: none;
+  }
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}

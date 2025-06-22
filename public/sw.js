@@ -1,182 +1,116 @@
+const CACHE_NAME = 'lara-solare-v1';
+const OFFLINE_URL = '/offline.html';
 
-const CACHE_NAME = 'lara-solare-v1.0.0';
-const RUNTIME = 'runtime';
-
-// App Shell - Critical resources for offline functionality
-const APP_SHELL = [
+// Enhanced static assets cache including navigation
+const STATIC_ASSETS = [
   '/',
-  '/index.html',
+  '/products',
+  '/partners', 
+  '/contact',
+  '/about',
   '/static/js/bundle.js',
   '/static/css/main.css',
-  '/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png',
-  '/manifest.json'
+  '/manifest.json',
+  '/offline.html',
+  // Add icon assets if using external icons
 ];
 
-// Install Event - Cache App Shell
-self.addEventListener('install', event => {
-  console.log('Service Worker installing...');
+// Install event - cache static assets
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
-        return cache.addAll(APP_SHELL);
+        return cache.addAll(STATIC_ASSETS);
       })
       .then(() => self.skipWaiting())
   );
 });
 
-// Activate Event - Clean up old caches
-self.addEventListener('activate', event => {
-  console.log('Service Worker activating...');
-  const currentCaches = [CACHE_NAME, RUNTIME];
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return cacheNames.filter(cacheName => !currentCaches.includes(cacheName));
-    }).then(cachesToDelete => {
-      return Promise.all(cachesToDelete.map(cacheToDelete => {
-        return caches.delete(cacheToDelete);
-      }));
-    }).then(() => self.clients.claim())
-  );
-});
+// Enhanced fetch handler for navigation
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
 
-// Fetch Event - Implement caching strategies
-self.addEventListener('fetch', event => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-
-  // Handle navigation requests
-  if (event.request.mode === 'navigate') {
+  // Handle navigation requests (for bottom nav routing)
+  if (request.mode === 'navigate') {
     event.respondWith(
-      caches.match(event.request)
-        .then(cachedResponse => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          return fetch(event.request)
-            .then(response => {
-              // Cache successful navigation responses
-              if (response.status === 200) {
-                const responseClone = response.clone();
-                caches.open(RUNTIME).then(cache => {
-                  cache.put(event.request, responseClone);
-                });
-              }
-              return response;
-            })
-            .catch(() => {
-              // Return offline fallback for failed navigation
-              return caches.match('/offline.html');
-            });
-        })
-    );
-    return;
-  }
-
-  // Handle static assets with cache-first strategy
-  if (event.request.destination === 'image' || 
-      event.request.destination === 'style' || 
-      event.request.destination === 'script') {
-    event.respondWith(
-      caches.match(event.request)
-        .then(cachedResponse => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          return fetch(event.request)
-            .then(response => {
-              // Cache successful responses
-              if (response.status === 200) {
-                const responseClone = response.clone();
-                caches.open(CACHE_NAME).then(cache => {
-                  cache.put(event.request, responseClone);
-                });
-              }
-              return response;
-            });
-        })
-    );
-    return;
-  }
-
-  // Handle API requests with network-first strategy
-  if (event.request.url.includes('/api/')) {
-    event.respondWith(
-      fetch(event.request)
+      fetch(request)
         .then(response => {
-          // Cache successful API responses
-          if (response.status === 200) {
+          // Clone and cache successful responses
+          if (response.ok) {
             const responseClone = response.clone();
-            caches.open(RUNTIME).then(cache => {
-              cache.put(event.request, responseClone);
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(request, responseClone);
             });
           }
           return response;
         })
         .catch(() => {
-          // Return cached API response if network fails
-          return caches.match(event.request);
+          // Serve cached version or offline page
+          return caches.match(request)
+            .then(response => response || caches.match('/offline.html'));
         })
     );
     return;
   }
+
+  // Handle static assets
+  if (url.origin === location.origin) {
+    event.respondWith(
+      caches.match(request)
+        .then(response => {
+          if (response) {
+            return response;
+          }
+          return fetch(request)
+            .then(response => {
+              if (!response || response.status !== 200 || response.type !== 'basic') {
+                return response;
+              }
+              const responseToCache = response.clone();
+              caches.open(CACHE_NAME)
+                .then(cache => {
+                  cache.put(request, responseToCache);
+                });
+              return response;
+            });
+        })
+    );
+  }
 });
 
-// Background Sync for form submissions
-self.addEventListener('sync', event => {
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Handle skip waiting message
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
+// Background sync for offline form submissions
+self.addEventListener('sync', (event) => {
   if (event.tag === 'background-sync') {
-    console.log('Background sync triggered');
     event.waitUntil(doBackgroundSync());
   }
 });
 
 function doBackgroundSync() {
-  // Handle queued form submissions when back online
-  return new Promise((resolve) => {
-    // Implementation for background sync
-    resolve();
-  });
+  // Handle background sync logic here
+  return Promise.resolve();
 }
-
-// Push notifications
-self.addEventListener('push', event => {
-  const options = {
-    body: event.data ? event.data.text() : 'New update available!',
-    icon: '/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png',
-    badge: '/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png',
-    vibrate: [200, 100, 200],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1
-    },
-    actions: [
-      {
-        action: 'explore',
-        title: 'View Details',
-        icon: '/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png'
-      },
-      {
-        action: 'close',
-        title: 'Close',
-        icon: '/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png'
-      }
-    ]
-  };
-
-  event.waitUntil(
-    self.registration.showNotification('Lara Solare', options)
-  );
-});
-
-// Handle notification clicks
-self.addEventListener('notificationclick', event => {
-  event.notification.close();
-
-  if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  }
-});

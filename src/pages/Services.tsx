@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +17,7 @@ const Services = () => {
 
 const ServicesContent = () => {
   const { t, language } = useLanguage();
-  const isRTL = language === 'he' || language === 'ar';
+  const isRTL = language === 'he';
 
   const services = [
     {

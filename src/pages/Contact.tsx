@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +18,7 @@ const Contact = () => {
 
 const ContactContent = () => {
   const { t, language } = useLanguage();
-  const isRTL = language === 'he' || language === 'ar';
+  const isRTL = language === 'he';
 
   const contactInfo = [
     {

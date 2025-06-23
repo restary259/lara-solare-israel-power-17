@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Home, Zap, Users, Phone, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from './Header';
 
 interface NavItem {
   path: string;
@@ -11,50 +12,51 @@ interface NavItem {
   ariaLabel: string;
 }
 
-const navItems: NavItem[] = [
-  {
-    path: '/',
-    label: 'בית',
-    icon: Home,
-    ariaLabel: 'עמוד הבית'
-  },
-  {
-    path: '/products',
-    label: 'מוצרים',
-    icon: Zap,
-    ariaLabel: 'מוצרי דודי שמש'
-  },
-  {
-    path: '/partners',
-    label: 'שותפים',
-    icon: Users,
-    ariaLabel: 'השותפים שלנו'
-  },
-  {
-    path: '/contact',
-    label: 'צור קשר',
-    icon: Phone,
-    ariaLabel: 'פרטי התקשרות'
-  },
-  {
-    path: '/about',
-    label: 'אודות',
-    icon: Info,
-    ariaLabel: 'אודות החברה'
-  }
-];
-
 const BottomNavigation: React.FC = () => {
   const location = useLocation();
+  const { t, language } = useLanguage();
+
+  const navItems: NavItem[] = [
+    {
+      path: '/',
+      label: t('home'),
+      icon: Home,
+      ariaLabel: language === 'he' ? 'עמוד הבית' : 'Home page'
+    },
+    {
+      path: '/products',
+      label: t('products'),
+      icon: Zap,
+      ariaLabel: language === 'he' ? 'מוצרי דודי שמש' : 'Solar water heater products'
+    },
+    {
+      path: '/partners',
+      label: t('partners'),
+      icon: Users,
+      ariaLabel: language === 'he' ? 'השותפים שלנו' : 'Our partners'
+    },
+    {
+      path: '/contact',
+      label: t('contact'),
+      icon: Phone,
+      ariaLabel: language === 'he' ? 'פרטי התקשרות' : 'Contact details'
+    },
+    {
+      path: '/about',
+      label: t('about'),
+      icon: Info,
+      ariaLabel: language === 'he' ? 'אודות החברה' : 'About the company'
+    }
+  ];
 
   return (
     <nav 
       className="bottom-nav"
       role="tablist"
-      aria-label="ניווט ראשי"
-      dir="rtl"
+      aria-label={language === 'he' ? 'ניווט ראשי' : 'Main navigation'}
+      dir={language === 'he' ? 'rtl' : 'ltr'}
     >
-      <div className="flex items-center justify-around h-full">
+      <div className="flex items-center justify-around h-full px-2">
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
@@ -67,9 +69,10 @@ const BottomNavigation: React.FC = () => {
               aria-label={item.ariaLabel}
               aria-selected={isActive}
               className={cn(
-                "relative flex flex-col items-center justify-center min-w-[60px] py-2 px-3 transition-all duration-150 ease-out h-full",
+                "relative flex flex-col items-center justify-center min-w-[60px] py-3 px-2 transition-all duration-150 ease-out h-full",
                 "focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:rounded-lg",
                 "active:scale-95 active:transition-transform active:duration-75",
+                "touch-target",
                 isActive 
                   ? "text-orange-500" 
                   : "text-slate-600 active:text-slate-800"
@@ -82,7 +85,7 @@ const BottomNavigation: React.FC = () => {
                 )} 
               />
               <span className={cn(
-                "text-[10px] font-medium leading-none transition-colors duration-150",
+                "text-[10px] font-medium leading-none transition-colors duration-150 text-center",
                 isActive ? "text-orange-500" : "text-slate-600"
               )}>
                 {item.label}

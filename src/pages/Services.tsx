@@ -7,73 +7,50 @@ import { motion } from "framer-motion";
 import Header, { LanguageProvider, useLanguage } from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
-import PageLayout from "@/components/PageLayout";
 
 const Services = () => {
   return (
     <LanguageProvider>
-      <PageLayout>
-        <ServicesContent />
-      </PageLayout>
+      <ServicesContent />
     </LanguageProvider>
   );
 };
 
 const ServicesContent = () => {
   const { t, language } = useLanguage();
-  const isRTL = language === 'he';
+  const isRTL = language === 'he' || language === 'ar';
 
   const services = [
     {
       icon: Settings,
-      title: t('systemDesign') || "System Design & Consultation",
-      description: t('systemDesignDesc') || "Custom solar water heating system design tailored to your specific needs and roof configuration.",
-      features: [
-        t('freeSiteAssessment') || "Free site assessment", 
-        t('3dModeling') || "3D system modeling", 
-        t('energySavings') || "Energy savings calculation", 
-        t('roiAnalysis') || "ROI analysis"
-      ],
-      price: t('freeConsultation') || "Free Consultation",
+      title: "System Design & Consultation",
+      description: "Custom solar water heating system design tailored to your specific needs and roof configuration.",
+      features: ["Free site assessment", "3D system modeling", "Energy savings calculation", "ROI analysis"],
+      price: "Free Consultation",
       color: "from-blue-500 to-blue-600"
     },
     {
       icon: Wrench,
-      title: t('professionalInstallation') || "Professional Installation",
-      description: t('professionalInstallationDesc') || "Expert installation by certified technicians with full compliance to Israeli standards.",
-      features: [
-        t('licensedInstallers') || "Licensed installers", 
-        t('safetyCompliance') || "Safety compliance", 
-        t('qualityMaterials') || "Quality materials", 
-        t('cleanInstallation') || "Clean installation"
-      ],
+      title: "Professional Installation",
+      description: "Expert installation by certified technicians with full compliance to Israeli standards.",
+      features: ["Licensed installers", "Safety compliance", "Quality materials", "Clean installation"],
       price: "From ₪500",
       color: "from-orange-500 to-orange-600"
     },
     {
       icon: Shield,
-      title: t('maintenanceRepair') || "Maintenance & Repair",
-      description: t('maintenanceRepairDesc') || "Comprehensive maintenance services to keep your system running at peak efficiency.",
-      features: [
-        t('annualInspection') || "Annual inspection", 
-        t('componentReplacement') || "Component replacement", 
-        t('performanceOptimization') || "Performance optimization", 
-        t('emergencyRepairs') || "Emergency repairs"
-      ],
+      title: "Maintenance & Repair",
+      description: "Comprehensive maintenance services to keep your system running at peak efficiency.",
+      features: ["Annual inspection", "Component replacement", "Performance optimization", "Emergency repairs"],
       price: "From ₪200",
       color: "from-green-500 to-green-600"
     },
     {
       icon: Phone,
-      title: t('support24_7') || "24/7 Support",
-      description: t('support24_7Desc') || "Round-the-clock customer support for any questions or emergencies.",
-      features: [
-        t('phoneSupport') || "Phone support", 
-        t('onlineDiagnostics') || "Online diagnostics", 
-        t('remoteMonitoring') || "Remote monitoring", 
-        t('priorityService') || "Priority service"
-      ],
-      price: t('included') || "Included",
+      title: "24/7 Support",
+      description: "Round-the-clock customer support for any questions or emergencies.",
+      features: ["Phone support", "Online diagnostics", "Remote monitoring", "Priority service"],
+      price: "Included",
       color: "from-purple-500 to-purple-600"
     }
   ];
@@ -81,56 +58,56 @@ const ServicesContent = () => {
   const process = [
     {
       step: "1",
-      title: t('initialConsultation') || "Initial Consultation",
-      description: t('initialConsultationDesc') || "We assess your needs, site conditions, and provide a detailed proposal."
+      title: "Initial Consultation",
+      description: "We assess your needs, site conditions, and provide a detailed proposal."
     },
     {
       step: "2", 
-      title: t('systemDesign') || "System Design",
-      description: t('systemDesignDesc2') || "Our engineers design a custom system optimized for your specific requirements."
+      title: "System Design",
+      description: "Our engineers design a custom system optimized for your specific requirements."
     },
     {
       step: "3",
-      title: t('installation') || "Installation",
-      description: t('installationDesc') || "Professional installation by certified technicians following safety protocols."
+      title: "Installation",
+      description: "Professional installation by certified technicians following safety protocols."
     },
     {
       step: "4",
-      title: t('testingHandover') || "Testing & Handover", 
-      description: t('testingHandoverDesc') || "Complete system testing, user training, and warranty documentation."
+      title: "Testing & Handover", 
+      description: "Complete system testing, user training, and warranty documentation."
     },
     {
       step: "5",
-      title: t('ongoingSupport') || "Ongoing Support",
-      description: t('ongoingSupportDesc') || "Continuous support, maintenance, and monitoring for optimal performance."
+      title: "Ongoing Support",
+      description: "Continuous support, maintenance, and monitoring for optimal performance."
     }
   ];
 
   const warranties = [
     {
-      component: t('solarCollectors') || "Solar Collectors",
-      period: t('15Years') || "15 Years",
-      coverage: t('manufacturingDefects') || "Manufacturing defects and performance"
+      component: "Solar Collectors",
+      period: "15 Years",
+      coverage: "Manufacturing defects and performance"
     },
     {
-      component: t('storageTank') || "Storage Tank",
-      period: t('10Years') || "10 Years", 
-      coverage: t('tankIntegrity') || "Tank integrity and insulation"
+      component: "Storage Tank",
+      period: "10 Years", 
+      coverage: "Tank integrity and insulation"
     },
     {
-      component: t('installationWork') || "Installation Work",
-      period: t('5Years') || "5 Years",
-      coverage: t('workmanship') || "Workmanship and materials"
+      component: "Installation Work",
+      period: "5 Years",
+      coverage: "Workmanship and materials"
     },
     {
-      component: t('systemPerformance') || "System Performance",
-      period: t('2Years') || "2 Years",
-      coverage: t('efficiencyGuarantee') || "Efficiency and operation guarantee"
+      component: "System Performance",
+      period: "2 Years",
+      coverage: "Efficiency and operation guarantee"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header />
       
       {/* Hero Section */}
@@ -143,10 +120,10 @@ const ServicesContent = () => {
             className="max-w-4xl mx-auto"
           >
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
-              {t('ourServices') || 'Our'} <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">{t('services') || 'Services'}</span>
+              Our <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Services</span>
             </h1>
             <p className="text-lg md:text-xl text-slate-300 mb-6 md:mb-8 leading-relaxed">
-              {t('completeServicesDesc') || 'Complete solar water heating solutions from consultation to ongoing support'}
+              Complete solar water heating solutions from consultation to ongoing support
             </p>
           </motion.div>
         </div>
@@ -162,9 +139,9 @@ const ServicesContent = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-4 md:mb-6">{t('whatWeOffer') || 'What We Offer'}</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-4 md:mb-6">What We Offer</h2>
             <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-              {t('comprehensiveServices') || 'Comprehensive services to meet all your solar water heating needs'}
+              Comprehensive services to meet all your solar water heating needs
             </p>
           </motion.div>
 
@@ -208,7 +185,7 @@ const ServicesContent = () => {
                         ))}
                       </div>
                       <Button className="w-full bg-slate-800 hover:bg-slate-700 text-white mt-4">
-                        {t('learnMore') || 'Learn More'}
+                        Learn More
                       </Button>
                     </CardContent>
                   </Card>
@@ -229,9 +206,9 @@ const ServicesContent = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-4 md:mb-6">{t('ourProcess') || 'Our Process'}</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-4 md:mb-6">Our Process</h2>
             <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-              {t('simpleTransparentSteps') || 'Simple, transparent steps from initial consultation to system handover'}
+              Simple, transparent steps from initial consultation to system handover
             </p>
           </motion.div>
 
@@ -271,9 +248,9 @@ const ServicesContent = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-4 md:mb-6">{t('comprehensiveWarranties') || 'Comprehensive Warranties'}</h2>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-4 md:mb-6">Comprehensive Warranties</h2>
             <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
-              {t('peaceOfMind') || 'Peace of mind with industry-leading warranty coverage'}
+              Peace of mind with industry-leading warranty coverage
             </p>
           </motion.div>
 
@@ -313,24 +290,24 @@ const ServicesContent = () => {
             className="max-w-3xl mx-auto"
           >
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 md:mb-6">
-              {t('readyToGetStarted') || 'Ready to Get Started?'}
+              Ready to Get Started?
             </h2>
             <p className="text-lg md:text-xl text-orange-100 mb-6 md:mb-8">
-              {t('contactUsToday') || 'Contact us today for a free consultation and custom system design.'}
+              Contact us today for a free consultation and custom system design.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
                 className="bg-white text-orange-600 hover:bg-slate-100 shadow-lg text-base md:text-lg px-6 md:px-8 py-3"
               >
-                {t('scheduleConsultation') || 'Schedule Consultation'}
+                Schedule Consultation
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-orange-600 text-base md:text-lg px-6 md:px-8 py-3"
               >
-                {t('callNow') || 'Call Now'}
+                Call Now
               </Button>
             </div>
           </motion.div>

@@ -1,194 +1,253 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useState, createContext, useContext, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Sun, Globe } from "lucide-react";
-import { motion } from "framer-motion";
+import { Menu, X, Globe } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 
-// Language context
-interface LanguageContextType {
-  language: 'he' | 'en';
-  setLanguage: (lang: 'he' | 'en') => void;
-  t: (key: string) => string;
-}
+// Language Context
+const LanguageContext = createContext({
+  language: 'he',
+  setLanguage: (lang: string) => {},
+  t: (key: string) => key
+});
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+export const useLanguage = () => useContext(LanguageContext);
 
-export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
-};
-
+// Enhanced translations with all necessary keys
 const translations = {
-  he: {
-    // Hero Section
-    harnessSun: 'רתם את השמש',
-    powerHome: 'הפעל את הבית שלך',
-    heroSubtitle: 'פתרונות דוד שמש מתקדמים עם טכנולוגיה סינית מובילה ומומחיות ישראלית מקומית',
-    getFreeQuote: 'קבל הצעת מחיר חינם',
-    viewProducts: 'צפה במוצרים',
-    installations: 'התקנות',
-    yearsExperience: 'שנות ניסיון',
-    support: 'תמיכה',
-    
-    // Navigation
-    home: 'בית',
-    products: 'מוצרים',
-    services: 'שירותים',
-    about: 'אודות',
-    contact: 'צור קשר',
-    partners: 'שותפים',
-    
-    // About Section
-    whyChoose: 'למה לבחור',
-    laraSolare: 'לרה סולארה',
-    customMade: 'מותאם אישית',
-    localExpertise: 'מומחיות מקומית',
-    warranty: 'אחריות מלאה',
-    highEfficiency: 'יעילות גבוהה',
-    nationwideService: 'שירות ארצי',
-    certifiedExcellence: 'מצוינות מוסמכת',
-    
-    // Services
-    completeSolutions: 'פתרונות מלאים',
-    ourProcess: 'התהליך שלנו',
-    readyToStart: 'מוכן להתחיל?',
-    scheduleConsultation: 'קבע יעוץ',
-    
-    // Products
-    residentialSystems: 'מערכות ביתיות',
-    commercialSolutions: 'פתרונות מסחריים',
-    warranties: 'אחריות',
-    maintenance: 'תחזוקה',
-    
-    // Contact
-    callUs: 'התקשר אלינו',
-    whatsappUs: 'שלח לנו וואטסאפ',
-    requestQuote: 'בקש הצעת מחיר',
-    
-    // Footer
-    company: 'החברה',
-    aboutUs: 'אודותינו',
-    ourStory: 'הסיפור שלנו',
-    careers: 'קריירה',
-    news: 'חדשות',
-    customerSupport: 'תמיכת לקוחות',
-    installationGuide: 'מדריך התקנה',
-    faq: 'שאלות ותשובות',
-    contactUs: 'צור קשר',
-    followUs: 'עקבו אחרינו',
-    allRightsReserved: 'כל הזכויות שמורות',
-    privacyPolicy: 'מדיניות פרטיות',
-    termsOfService: 'תנאי שירות',
-    cookiePolicy: 'מדיניות עוגיות',
-    partnerWithUs: 'הצטרף כשותף',
-    companyCredentials: 'חברה רשומה בישראל • רישיון עסק מס׳ 580123456',
-    footerDescription: 'ספק מוביל של פתרונות דוד שמש איכותיים בישראל. מערכות מותאמות אישית עם טכנולוגיה סינית ומומחיות מקומית.',
-    successfulInstallations: 'התקנות מוצלחות',
-    acrossIsrael: 'ברחבי ישראל',
-    workingHours: 'א׳-ה׳ 8:00-18:00',
-    responseTime: 'מענה תוך 24 שעות',
-    allOfIsrael: 'כל רחבי ישראל'
-  },
   en: {
-    // Hero Section  
-    harnessSun: 'Harness the Sun',
-    powerHome: 'Power Your Home',
-    heroSubtitle: 'Advanced solar water heating solutions with leading Chinese technology and local Israeli expertise',
-    getFreeQuote: 'Get Free Quote',
-    viewProducts: 'View Products',
-    installations: 'Installations',
-    yearsExperience: 'Years Experience',
-    support: 'Support',
-    
-    // Navigation
     home: 'Home',
     products: 'Products',
     services: 'Services',
     about: 'About',
     contact: 'Contact',
     partners: 'Partners',
-    
-    // About Section
+    getQuote: 'Get Quote',
+    harnessSun: 'Harness the Sun.',
+    powerHome: 'Power Your Home.',
+    heroSubtitle: 'Premium custom-designed solar water heaters from China. Locally installed by experts throughout Israel.',
+    getFreeQuote: 'Get Free Quote',
+    viewProducts: 'View Products',
+    installations: 'Installations',
+    yearsExperience: 'Years Experience',
+    support: 'Support',
     whyChoose: 'Why Choose',
-    laraSolare: 'Lara Solare',
-    customMade: 'Custom Made',
+    laraSolare: 'Lara Solare?',
+    customMade: 'Custom-Made in China',
     localExpertise: 'Local Expertise',
-    warranty: 'Full Warranty',
+    warranty: 'Comprehensive Warranty',
     highEfficiency: 'High Efficiency',
     nationwideService: 'Nationwide Service',
     certifiedExcellence: 'Certified Excellence',
-    
-    // Services
-    completeSolutions: 'Complete Solutions',
+    ourProducts: 'Our Solar Products',
+    completeSolutions: 'Complete Solar Solutions',
     ourProcess: 'Our Process',
-    readyToStart: 'Ready to Start?',
+    readyToStart: 'Ready to Get Started?',
     scheduleConsultation: 'Schedule Consultation',
-    
-    // Products
-    residentialSystems: 'Residential Systems',
-    commercialSolutions: 'Commercial Solutions',
-    warranties: 'Warranties',
-    maintenance: 'Maintenance',
-    
-    // Contact
-    callUs: 'Call Us',
-    whatsappUs: 'WhatsApp Us',
+    becomePartner: 'Become a Partner',
     requestQuote: 'Request Quote',
-    
-    // Footer
+    whatsappUs: 'WhatsApp Us',
+    callUs: 'Call Us',
+    // Company info
+    founded: 'Founded',
+    foundedYear: '2018',
+    ceo: 'CEO',
+    ceoName: 'Emil Dwahda',
+    coFounder: 'Co-Founder',
+    coFounderName: 'Badr Dwahda',
+    // Footer translations
     company: 'Company',
     aboutUs: 'About Us',
     ourStory: 'Our Story',
     careers: 'Careers',
     news: 'News',
+    residentialSystems: 'Residential Systems',
+    commercialSolutions: 'Commercial Solutions',
+    warranties: 'Warranties',
+    maintenance: 'Maintenance',
     customerSupport: 'Customer Support',
     installationGuide: 'Installation Guide',
     faq: 'FAQ',
     contactUs: 'Contact Us',
+    workingHours: 'Sun-Thu 8:00-18:00',
+    responseTime: '24h response time',
+    allOfIsrael: 'All of Israel',
     followUs: 'Follow Us',
-    allRightsReserved: 'All Rights Reserved',
+    allRightsReserved: 'All rights reserved.',
     privacyPolicy: 'Privacy Policy',
     termsOfService: 'Terms of Service',
     cookiePolicy: 'Cookie Policy',
     partnerWithUs: 'Partner With Us',
-    companyCredentials: 'Registered Company in Israel • Business License No. 580123456',
-    footerDescription: 'Leading provider of quality solar water heating solutions in Israel. Custom systems with Chinese technology and local expertise.',
+    companyCredentials: 'Licensed Solar Installation Company | Israeli Standards Institute Certified | Import License #IL-SOLAR-2024 | VAT: IL123456789',
+    footerDescription: 'Leading provider of premium solar water heating solutions in Israel. Custom-designed systems with Chinese technology and local expertise.',
     successfulInstallations: 'Successful Installations',
-    acrossIsrael: 'Across Israel',
-    workingHours: 'Sun-Thu 8:00-18:00',
-    responseTime: '24h Response Time',
-    allOfIsrael: 'All of Israel'
+    acrossIsrael: 'Across Israel'
+  },
+  he: {
+    home: 'בית',
+    products: 'מוצרים',
+    services: 'שירותים',
+    about: 'אודות',
+    contact: 'צור קשר',
+    partners: 'שותפים',
+    getQuote: 'קבל הצעת מחיר',
+    harnessSun: 'רתם את השמש.',
+    powerHome: 'הפעל את הבית שלך.',
+    heroSubtitle: 'דודי שמש מותאמים אישית ומתקדמים מסין. הותקנו מקומית על ידי מומחים ברחבי ישראל.',
+    getFreeQuote: 'קבל הצעת מחיר חינם',
+    viewProducts: 'צפה במוצרים',
+    installations: 'התקנות',
+    yearsExperience: 'שנות ניסיון',
+    support: 'תמיכה',
+    whyChoose: 'למה לבחור ב',
+    laraSolare: 'לרה סולארי?',
+    customMade: 'מיוצר במיוחד בסין',
+    localExpertise: 'מומחיות מקומית',
+    warranty: 'אחריות מקיפה',
+    highEfficiency: 'יעילות גבוהה',
+    nationwideService: 'שירות ארצי',
+    certifiedExcellence: 'מצוינות מאושרת',
+    ourProducts: 'המוצרים הסולאריים שלנו',
+    completeSolutions: 'פתרונות סולאריים מלאים',
+    ourProcess: 'התהליך שלנו',
+    readyToStart: 'מוכן להתחיל?',
+    scheduleConsultation: 'קבע ייעוץ',
+    becomePartner: 'הפוך לשותף',
+    requestQuote: 'בקש הצעת מחיר',
+    whatsappUs: 'צור קשר בוואטסאפ',
+    callUs: 'התקשר אלינו',
+    // Company info
+    founded: 'נוסדה',
+    foundedYear: '2018',
+    ceo: 'מנכ״ל',
+    ceoName: 'איميל דואהדה',
+    coFounder: 'מייסד שותף',
+    coFounderName: 'בדר דואהדה',
+    // Footer translations
+    company: 'החברה',
+    aboutUs: 'אודותינו',
+    ourStory: 'הסיפור שלנו',
+    careers: 'קריירה',
+    news: 'חדשות',
+    residentialSystems: 'מערכות ביתיות',
+    commercialSolutions: 'פתרונות מסחריים',
+    warranties: 'אחריות',
+    maintenance: 'תחזוקה',
+    customerSupport: 'תמיכת לקוחות',
+    installationGuide: 'מדריך התקנה',
+    faq: 'שאלות נפוצות',
+    contactUs: 'צור קשר',
+    workingHours: 'א׳-ה׳ 8:00-18:00',
+    responseTime: 'תגובה תוך 24 שעות',
+    allOfIsrael: 'כל ישראל',
+    followUs: 'עקבו אחרינו',
+    allRightsReserved: 'כל הזכויות שמורות.',
+    privacyPolicy: 'מדיניות פרטיות',
+    termsOfService: 'תנאי שירות',
+    cookiePolicy: 'מדיניות עוגיות',
+    partnerWithUs: 'הצטרפו כשותפים',
+    companyCredentials: 'חברת התקנת דודי שמש מורשית | מאושרת על ידי מכון התקנים הישראלי | רישיון יבוא #IL-SOLAR-2024 | מע״ם: IL123456789',
+    footerDescription: 'ספק מוביל של פתרונות דוד שמש איכותיים בישראל. מערכות מותאמות אישית עם טכנולוגיה סינית ומומחיות מקומית.',
+    successfulInstallations: 'התקנות מוצלחות',
+    acrossIsrael: 'ברחבי ישראל'
+  },
+  ar: {
+    home: 'الرئيسية',
+    products: 'المنتجات',
+    services: 'الخدمات',
+    about: 'حولنا',
+    contact: 'اتصل بنا',
+    partners: 'الشركاء',
+    getQuote: 'احصل على عرض سعر',
+    harnessSun: 'استغل الشمس.',
+    powerHome: 'قم بتشغيل منزلك.',
+    heroSubtitle: 'سخانات المياه الشمسية المصممة خصيصاً من الصين. يتم تركيبها محلياً من قِبل خبراء في جميع أنحاء إسرائيل.',
+    getFreeQuote: 'احصل على عرض سعر مجاني',
+    viewProducts: 'عرض المنتجات',
+    installations: 'التركيبات',
+    yearsExperience: 'سنوات من الخبرة',
+    support: 'الدعم',
+    whyChoose: 'لماذا تختار',
+    laraSolare: 'لارا سولاري؟',
+    customMade: 'مصنوع خصيصاً في الصين',
+    localExpertise: 'الخبرة المحلية',
+    warranty: 'ضمان شامل',
+    highEfficiency: 'كفاءة عالية',
+    nationwideService: 'خدمة على مستوى البلاد',
+    certifiedExcellence: 'التميز المعتمد',
+    ourProducts: 'منتجاتنا الشمسية',
+    completeSolutions: 'حلول شمسية متكاملة',
+    ourProcess: 'عمليتنا',
+    readyToStart: 'مستعد للبدء؟',
+    scheduleConsultation: 'حدد موعد استشارة',
+    becomePartner: 'كن شريكاً',
+    requestQuote: 'اطلب عرض سعر',
+    whatsappUs: 'راسلنا عبر واتساب',
+    callUs: 'اتصل بنا',
+    // Company info
+    founded: 'تأسست',
+    foundedYear: '2018',
+    ceo: 'الرئيس التنفيذي',
+    ceoName: 'ايميل دواهدة',
+    coFounder: 'الشريك المؤسس',
+    coFounderName: 'بدر دواهدة',
+    // Footer translations
+    company: 'الشركة',
+    aboutUs: 'حولنا',
+    ourStory: 'قصتنا',
+    careers: 'وظائف',
+    news: 'أخبار',
+    residentialSystems: 'أنظمة سكنية',
+    commercialSolutions: 'حلول تجارية',
+    warranties: 'ضمانات',
+    maintenance: 'صيانة',
+    customerSupport: 'دعم العملاء',
+    installationGuide: 'دليل التركيب',
+    faq: 'أسئلة شائعة',
+    contactUs: 'اتصل بنا',
+    workingHours: 'الأحد-الخميس 8:00-18:00',
+    responseTime: 'وقت الاستجابة 24 ساعة',
+    allOfIsrael: 'جميع أنحاء إسرائيل',
+    followUs: 'تابعونا',
+    allRightsReserved: 'جميع الحقوق محفوظة.',
+    privacyPolicy: 'سياسة الخصوصية',
+    termsOfService: 'شروط الخدمة',
+    cookiePolicy: 'سياسة الكوكيز',
+    partnerWithUs: 'كن شريكاً معنا',
+    companyCredentials: 'شركة تركيب دوود شمسية مرخصة | معتمدة من معهد المعايير الإسرائيلي | رخصة استيراد #IL-SOLAR-2024 | ضريبة القيمة المضافة: IL123456789',
+    footerDescription: 'مزود رائد لحلول سخانات المياه الشمسية المتميزة في إسرائيل. أنظمة مصممة خصيصاً بتقنية صينية وخبرة محلية.',
+    successfulInstallations: 'تركيبات ناجحة',
+    acrossIsrael: 'في جميع أنحاء إسرائيل'
   }
 };
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<'he' | 'en'>('he');
+export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
+  // Initialize with Hebrew as default, check localStorage for saved preference
+  const [language, setLanguageState] = useState(() => {
+    const saved = localStorage.getItem('larasolare-language');
+    return saved || 'he';
+  });
+  
+  const setLanguage = (lang: string) => {
+    setLanguageState(lang);
+    localStorage.setItem('larasolare-language', lang);
+  };
+  
+  const t = (key: string) => {
+    return translations[language as keyof typeof translations]?.[key as keyof typeof translations.en] || key;
+  };
 
+  // Set document attributes for RTL support and persistence
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('language') as 'he' | 'en';
-    if (savedLanguage) {
-      setLanguage(savedLanguage);
-    }
-  }, []);
-
-  const handleLanguageChange = (lang: 'he' | 'en') => {
-    setLanguage(lang);
-    localStorage.setItem('language', lang);
-    document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
-    document.documentElement.lang = lang;
-  };
-
-  const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations['he']] || key;
-  };
+    const isRTL = language === 'he' || language === 'ar';
+    document.documentElement.setAttribute('dir', isRTL ? 'rtl' : 'ltr');
+    document.documentElement.setAttribute('lang', language);
+  }, [language]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleLanguageChange, t }}>
-      <div className={language === 'he' ? 'rtl' : 'ltr'}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      <div className={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'} dir={language === 'he' || language === 'ar' ? 'rtl' : 'ltr'}>
         {children}
       </div>
     </LanguageContext.Provider>
@@ -196,97 +255,154 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 };
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isRTL = language === 'he' || language === 'ar';
 
-  const navItems = [
-    { name: t('home'), href: "#home", action: () => document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' }) },
-    { name: t('products'), href: "#products", action: () => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }) },
-    { name: t('services'), href: "#services", action: () => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }) },
-    { name: t('about'), href: "#about", action: () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }) },
-    { name: t('contact'), href: "#contact", action: () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' }) }
+  const handleNavigation = (href: string, label: string) => {
+    if (href.startsWith('#')) {
+      // Hash navigation - only works on homepage
+      if (location.pathname !== '/') {
+        // If not on homepage, go to homepage first then scroll to section
+        navigate('/');
+        setTimeout(() => {
+          const element = document.getElementById(href.slice(1));
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        // Already on homepage, just scroll to section
+        const element = document.getElementById(href.slice(1));
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Regular page navigation
+      navigate(href);
+    }
+    setIsMenuOpen(false);
+  };
+
+  const menuItems = [
+    { href: '/', label: t('home') },
+    { href: '/products', label: t('products') },
+    { href: '/services', label: t('services') },
+    { href: '/about', label: t('about') },
+    { href: '/contact', label: t('contact') },
+    { href: '/partners', label: t('partners') },
   ];
 
   return (
-    <motion.header
-      className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="container mx-auto px-4 py-4">
+    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm border-b border-slate-100">
+      <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <img 
-              src="/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png" 
-              alt="Lara Solare Energy" 
-              className="h-10 w-auto"
-            />
-          </div>
+          {/* Logo */}
+          <motion.div 
+            className="flex items-center space-x-3 cursor-pointer min-w-0 shrink-0"
+            initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            onClick={() => navigate('/')}
+          >
+            <div className="relative">
+              <img 
+                src="/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png" 
+                alt="Lara Solare Energy" 
+                className="h-10 md:h-12 w-auto"
+              />
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+            </div>
+          </motion.div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={item.action}
-                className="text-slate-700 hover:text-orange-500 transition-colors font-medium"
+          {/* Desktop Menu */}
+          <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
+            {menuItems.map((item, index) => (
+              <motion.button
+                key={item.href}
+                className="text-slate-700 hover:text-orange-600 transition-all duration-300 font-medium relative group whitespace-nowrap text-sm lg:text-base px-2"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                onClick={() => handleNavigation(item.href, item.label)}
               >
-                {item.name}
-              </button>
+                {item.label}
+                <span className={`absolute -bottom-1 ${isRTL ? 'right-0' : 'left-0'} w-0 h-0.5 bg-gradient-to-r from-orange-500 to-yellow-500 group-hover:w-full transition-all duration-300`}></span>
+              </motion.button>
             ))}
           </nav>
 
-          {/* Language Toggle & Mobile Menu */}
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setLanguage(language === 'he' ? 'en' : 'he')}
-              className="flex items-center space-x-2 bg-white/90 backdrop-blur-sm shadow-md hover:shadow-lg"
-            >
-              <Globe className="h-4 w-4" />
-              <span>{language === 'he' ? 'EN' : 'עב'}</span>
+          {/* Language Selector & CTA */}
+          <div className="hidden md:flex items-center gap-2 lg:gap-3 xl:gap-4 shrink-0">
+            <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 min-w-fit">
+              <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
+              <select 
+                value={language} 
+                onChange={(e) => setLanguage(e.target.value)}
+                className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none cursor-pointer min-w-0"
+                style={{ direction: 'ltr' }}
+              >
+                <option value="he">עברית</option>
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+              </select>
+            </div>
+            <Button className="bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap text-sm px-4 py-2">
+              {t('getQuote')}
             </Button>
-
-            {/* Mobile Menu */}
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="md:hidden bg-white/95 backdrop-blur-sm shadow-md hover:shadow-lg p-3"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side={language === 'he' ? 'right' : 'left'} className="w-72">
-                <div className="flex flex-col space-y-6 mt-8">
-                  <div className="flex items-center space-x-3 pb-4 border-b">
-                    <img 
-                      src="/lovable-uploads/7706812b-46c5-418f-b20d-7c094260878e.png" 
-                      alt="Lara Solare Energy" 
-                      className="h-8 w-auto"
-                    />
-                  </div>
-                  {navItems.map((item, index) => (
-                    <motion.button
-                      key={item.name}
-                      onClick={item.action}
-                      className="text-left text-lg font-medium text-slate-700 hover:text-orange-500 transition-colors p-2 hover:bg-orange-50 rounded-lg"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      {item.name}
-                    </motion.button>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors shrink-0"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden mt-4 pb-4 border-t border-slate-100"
+            >
+              <nav className="flex flex-col space-y-2 pt-4">
+                {menuItems.map((item) => (
+                  <button
+                    key={item.href}
+                    className={`text-slate-700 hover:text-orange-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-slate-50 ${isRTL ? 'text-right' : 'text-left'}`}
+                    onClick={() => handleNavigation(item.href, item.label)}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <div className={`flex items-center ${isRTL ? 'justify-start' : 'justify-between'} pt-4 border-t border-slate-100 gap-3`}>
+                  <div className="flex items-center gap-2 bg-slate-50 rounded-full px-3 py-2 border border-slate-200 flex-1 max-w-[140px]">
+                    <Globe className="h-4 w-4 text-slate-600 flex-shrink-0" />
+                    <select 
+                      value={language} 
+                      onChange={(e) => setLanguage(e.target.value)}
+                      className="bg-transparent border-none text-sm font-medium text-slate-700 focus:outline-none flex-1 min-w-0"
+                      style={{ direction: 'ltr' }}
+                    >
+                      <option value="he">עברית</option>
+                      <option value="en">English</option>
+                      <option value="ar">العربية</option>
+                    </select>
+                  </div>
+                  <Button size="sm" className="bg-gradient-to-r from-orange-500 to-yellow-500 shadow-lg whitespace-nowrap text-sm px-4 py-2">
+                    {t('getQuote')}
+                  </Button>
+                </div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </motion.header>
+    </header>
   );
 };
 

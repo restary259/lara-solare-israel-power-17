@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 @tailwind base;
 @tailwind components;
@@ -64,269 +65,20 @@
   * {
     @apply border-border;
   }
-  body {
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    overflow-x: hidden;
     @apply bg-background text-foreground;
     font-family: "Inter", sans-serif;
   }
-}
-
-/* RTL Support */
-.rtl {
-  direction: rtl;
-}
-
-.ltr {
-  direction: ltr;
-}
-
-/* Smooth scrolling optimization */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Reduce motion for users who prefer it */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Mobile performance optimizations */
-@media (max-width: 768px) {
-  /* Disable smooth scroll on mobile for better performance */
-  html {
-    scroll-behavior: auto;
-  }
-  
-  /* Reduce transform-heavy animations on mobile */
-  .motion-safe\:transform {
-    transform: none !important;
-  }
-}
-
-/* Consistent spacing system */
-.section-padding {
-  @apply py-16 sm:py-20 lg:py-24;
-}
-
-.container-padding {
-  @apply px-4 sm:px-6 lg:px-8;
-}
-
-/* Typography consistency */
-.heading-primary {
-  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight;
-}
-
-.heading-secondary {
-  @apply text-2xl sm:text-3xl md:text-4xl font-bold leading-tight;
-}
-
-.heading-tertiary {
-  @apply text-xl sm:text-2xl md:text-3xl font-semibold leading-tight;
-}
-
-.body-large {
-  @apply text-lg sm:text-xl leading-relaxed;
-}
-
-.body-base {
-  @apply text-base sm:text-lg leading-relaxed;
-}
-
-/* Button consistency */
-.btn-primary {
-  @apply bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white;
-}
-
-/* Card consistency */
-.card-base {
-  @apply bg-white rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-all duration-200;
-}
-
-/* Grid system consistency */
-.grid-responsive {
-  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
-}
-
-.gap-consistent {
-  @apply gap-4 sm:gap-6 lg:gap-8;
-}
-
-/* Prevent layout shifts and optimize rendering */
-img {
-  @apply max-w-full h-auto;
-}
-
-/* Ensure proper aspect ratios */
-.aspect-ratio-square {
-  @apply aspect-square;
-}
-
-.aspect-ratio-video {
-  @apply aspect-video;
-}
-
-/* Performance optimizations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* Mobile-first responsive breakpoints with consistent spacing */
-@media (min-width: 640px) {
-  .section-padding {
-    @apply py-20;
-  }
-}
-
-@media (min-width: 1024px) {
-  .section-padding {
-    @apply py-24;
-  }
-}
-
-@media (min-width: 1280px) {
-  .section-padding {
-    @apply py-28;
-  }
-}
-
-/* Ensure text doesn't overflow on small screens */
-.text-responsive {
-  @apply break-words hyphens-auto;
-}
-
-/* Prevent horizontal scrolling */
-.overflow-x-hidden {
-  overflow-x: hidden;
-}
-
-/* Consistent focus states */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2;
-}
-
-/* PWA Optimizations */
-.pwa-safe-area {
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
-}
-
-/* Enhanced touch targets for mobile */
-@media (max-width: 768px) {
-  button, a, input, select, textarea {
-    min-height: 44px;
-    min-width: 44px;
-  }
-  
-  .touch-target {
-    padding: 12px !important;
-  }
-}
-
-/* Image optimization */
-img {
-  @apply max-w-full h-auto;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: optimizeQuality;
-}
-
-/* Lazy loading placeholders */
-img[loading="lazy"] {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Critical CSS for above-the-fold content */
-.hero-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-}
-
-/* Improved focus indicators for accessibility */
-*:focus-visible {
-  outline: 2px solid #f97316;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-    --border: 0 0% 0%;
-  }
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  body {
-    font-size: 12pt;
-    line-height: 1.5;
-  }
-  
-  a[href]:after {
-    content: " (" attr(href) ")";
+  #root, .app-container {
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 }
 
@@ -359,12 +111,10 @@ html {
 
 /* Mobile performance optimizations */
 @media (max-width: 768px) {
-  /* Disable smooth scroll on mobile for better performance */
   html {
     scroll-behavior: auto;
   }
   
-  /* Reduce transform-heavy animations on mobile */
   .motion-safe\:transform {
     transform: none !important;
   }
@@ -489,17 +239,23 @@ img {
 
 /* Bottom Navigation Specific Styles */
 .bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  max-width: 100vw;
   height: 64px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   background: #ffffff;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-  backdrop-filter: none; /* Remove blur for solid background */
-  -webkit-backdrop-filter: none;
+  border-top: 1px solid rgba(226, 232, 240, 1);
+  z-index: 999;
+  box-sizing: border-box;
 }
 
 /* Ensure content doesn't get hidden behind bottom nav */
 .content-with-bottom-nav {
-  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
 }
 
 /* Enhanced touch targets for better mobile UX */
@@ -582,92 +338,77 @@ img {
   transition: transform 0.1s ease-out;
 }
 
-/* Backdrop Blur Support Check */
-@supports not (backdrop-filter: blur(20px)) {
-  .bottom-nav {
-    background: rgba(255, 255, 255, 0.95);
-  }
+/* Header menu fixes - Make three dots menu fully opaque and accessible */
+header .mobile-menu-button,
+header .menu-button,
+header button {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  padding: 12px !important;
+  min-height: 44px !important;
+  min-width: 44px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
 }
 
-/* Dark Mode Support for Bottom Nav */
-@media (prefers-color-scheme: dark) {
-  .bottom-nav {
-    background: rgba(30, 41, 59, 0.95);
-    border-color: rgba(71, 85, 105, 0.3);
-  }
-}
-
-/* Ensure content doesn't get hidden behind bottom nav */
-.content-with-bottom-nav {
-  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
-}
-
-/* Responsive behavior - hide on larger screens */
+/* Desktop responsive layout fixes */
 @media (min-width: 768px) {
-  .mobile-only {
-    display: none !important;
+  .app-container {
+    max-width: 100vw;
+    margin: 0 auto;
   }
   
-  .content-with-bottom-nav {
-    padding-bottom: 0;
+  /* Ensure desktop content is properly contained */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
   }
 }
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .bottom-nav {
-    border-width: 2px;
-    background: white;
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1400px;
+    padding: 0 2rem;
   }
 }
 
-/* Reduced motion preferences */
+/* Prevent any layout shifts or black margins */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  background: white;
+  overflow-x: hidden;
+}
+
+/* Ensure full width on all screen sizes */
+.w-full, .w-screen {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Additional fixes for the three dots menu visibility */
+[data-radix-popper-content-wrapper] {
+  z-index: 1000 !important;
+}
+
+/* Dropdown menu enhancements */
+.dropdown-menu,
+[role="menu"] {
+  background: white !important;
+  opacity: 1 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid rgba(226, 232, 240, 1) !important;
+}
+
+/* Reduce motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .active-scale:active {
     transform: none;
     transition: none;
   }
-}
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
